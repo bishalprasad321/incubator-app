@@ -7,12 +7,12 @@
         Bring the innovation everyone need with your peer groups.
         \nMake communities, family and friends. \n\n<b>Be at Home here…Incubator</b></string>
     <string name="let_s_incubate">Let\'s Incubate</string>
-    <string name="create_your_account">Create your \nAccount</string>
+    <string name="create_your_account">Create your account</string>
     <string name="name_input_field">name input field</string>
-    <string name="name_hint">Full Name</string>
-    <string name="enter_your_email">Enter Your Email</string>
+    <string name="name_hint">Name / Username</string>
+    <string name="enter_your_username">Enter Your Username</string>
     <string name="password">Password</string>
-    <string name="register">Register</string>
+    <string name="sign_up">Sign up</string>
     <string name="ask_sign_in_text">Already heave an account ?  <b><font color='#0677E8'>Sign in</font></b></string>
     <string name="sign_up_with_google">Sign up with google</string>
     <string name="sign_up_with_facebook">Sign up with facebook</string>
@@ -31,4 +31,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="notification_button">notification icon</string>
+    <string name="add_profile_image_icon">add profile image icon</string>
+    <string name="enter_your_email">Enter Your Email</string>
+    <string name="welcome_to_incubator">Welcome to \nIncubator!</string>
 </resources>
