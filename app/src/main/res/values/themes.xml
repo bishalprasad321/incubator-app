@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Incubator" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/blue_accent</item>
+        <item name="android:statusBarColor">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.Incubator" parent="Base.Theme.Incubator" />
+
+    <style name="SplashTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:statusBarColor">@color/dark_background</item>
+    </style>
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+</resources>

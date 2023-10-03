@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "389356540687",
+    "project_id": "incubator-86109",
+    "storage_bucket": "incubator-86109.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389356540687:android:e22459cd58c92c3895e47a",
+        "android_client_info": {
+          "package_name": "com.bishal.incubator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389356540687-c7qkptp55b69hmi98qj998376b0gpb9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bishal.incubator",
+            "certificate_hash": "5a1f75be10125923d236e0ef189afbe64b04fc8e"
+          }
+        },
+        {
+          "client_id": "389356540687-4fj12b2fqupttvimagl0r6tf4774de7r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiRQg-PEvapvFLswmv0zp_Wq0ZwB-wxvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389356540687-4fj12b2fqupttvimagl0r6tf4774de7r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
