@@ -34,4 +34,6 @@
     <string name="add_profile_image_icon">add profile image icon</string>
     <string name="enter_your_email">Enter Your Email</string>
     <string name="welcome_to_incubator">Welcome to \nIncubator!</string>
+    <string name="forgot_password">Forgot password ? <font color = '#0677E8'>Reset</font></string>
+    <string name="default_web_client_id">389356540687-4fj12b2fqupttvimagl0r6tf4774de7r.apps.googleusercontent.com</string>
 </resources>

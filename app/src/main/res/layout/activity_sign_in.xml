@@ -113,6 +113,19 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/forgotPasswordText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forgot_password"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordEtView"/>
+
         <Button
             android:id="@+id/signInButton"
             android:layout_width="0dp"
@@ -122,12 +135,12 @@
             android:textSize="18sp"
             android:backgroundTint="@color/blue_accent"
             app:cornerRadius="12dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordEtView"
+            app:layout_constraintTop_toBottomOf="@id/forgotPasswordText"
             tools:ignore="VisualLintButtonSize" />
 
         <TextView
