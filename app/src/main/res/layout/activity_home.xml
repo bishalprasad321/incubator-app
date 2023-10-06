@@ -8,16 +8,35 @@
     tools:context=".HomeActivity">
 
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <FrameLayout-->
+<!--        android:id="@+id/frameLayout"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-    </FrameLayout>
+<!--    </FrameLayout>-->
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_out"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="18sp"
+        android:textColor="@color/dark_background"
+        android:backgroundTint="@color/white"
+        app:cornerRadius="10dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

@@ -58,6 +58,9 @@ class SignUpActivity : AppCompatActivity() {
                 auth.signInWithCredential(credentials).addOnCompleteListener {
                     if (it.isSuccessful) {
                         Toast.makeText(this@SignUpActivity, "Success google sign in", Toast.LENGTH_LONG).show()
+                        binding.nameEtView.setText(FirebaseAuth.getInstance().currentUser?.displayName)
+                        binding.emailEtView.setText(FirebaseAuth.getInstance().currentUser?.email)
+                        binding.passwordEtView.editText?.setText(FirebaseAuth.getInstance().currentUser?.uid)
                     } else {
                         Toast.makeText(this@SignUpActivity, "Failed google sign in", Toast.LENGTH_LONG).show()
                     }
@@ -128,7 +131,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser != null) {
@@ -137,5 +140,5 @@ class SignUpActivity : AppCompatActivity() {
         } else {
             // TODO
         }
-    }
+    }*/
 }
