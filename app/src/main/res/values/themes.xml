@@ -16,4 +16,8 @@
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@android:color/transparent</item>
     </style>
+
+    <style name="tab_text" parent="Widget.Material3.TabLayout">
+        <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
 </resources>

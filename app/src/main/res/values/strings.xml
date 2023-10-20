@@ -34,7 +34,24 @@
     <string name="add_profile_image_icon">add profile image icon</string>
     <string name="enter_your_email">Enter Your Email</string>
     <string name="welcome_to_incubator">Welcome to \nIncubator!</string>
-    <string name="forgot_password">Forgot password ? <font color = '#0677E8'>Reset</font></string>
+    <string name="forgot_password">Forgot password ? <font color='#0677E8'>Reset</font></string>
     <string name="default_web_client_id">389356540687-4fj12b2fqupttvimagl0r6tf4774de7r.apps.googleusercontent.com</string>
     <string name="sign_out">Sign out</string>
+    <!--    facebook app id and client token-->
+    <string name="facebook_app_id">652856466990342</string>
+    <string name="facebook_client_token">b8fe29a18e20a28d699b8b2222271449</string>
+    <string name="fb_login_protocol_scheme">fb652856466990342</string>
+    <string name="user_s_profile">User\'s Profile</string>
+    <string name="side_drawer">side drawer</string>
+    <string name="profile_name_hint">Darius Tranz</string>
+    <string name="posts_count">30</string>
+    <string name="posts">posts</string>
+    <string name="followers_count">100</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
+    <string name="following_count">16</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="share_profile">Share Profile</string>
+    <string name="profile_user_name">\@darius_tranz</string>
+    <string name="profile_tab_for_posts_incubates">profile tab for posts/incubates</string>
 </resources>
