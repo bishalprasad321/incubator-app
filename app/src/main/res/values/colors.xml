@@ -8,6 +8,7 @@
     <color name="darker_secondary">#141416</color>
     <color name="darker_secondary_stroke">#2D3665</color>
     <color name="dark_grey">#292C35</color>
+    <color name="grey">#4F4F4F</color>
     <color name="teal">#008080</color>
     <color name="teal_50">#b2d8d8</color>
     <color name="pink">#ee2a7b</color>

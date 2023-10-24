@@ -52,10 +52,17 @@
     <string name="following_count">16</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="share_profile">Share Profile</string>
+    <string name="profile_user_bio">Google employee | Rising star</string>
     <string name="profile_user_name">\@darius_tranz</string>
     <string name="profile_tab_for_posts_incubates">profile tab for posts/incubates</string>
     <string name="chat_icon">chat icon</string>
     <string name="notification_icon">notification icon</string>
-    <string name="search_hint">Search...</string>
+    <string name="search_hint">Search…</string>
     <string name="camera_icon">camera icon</string>
+    <string name="notification">Notification</string>
+    <string name="tick_icon">Tick icon</string>
+    <string name="close_icon">Close icon</string>
+    <string name="edit_avatar">Edit Avatar</string>
+    <string name="chats">Chats</string>
+    <string name="settings">Settings</string>
 </resources>

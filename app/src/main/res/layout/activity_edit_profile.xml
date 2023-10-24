@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_background"
+    tools:context=".EditProfileActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/editProfileAppBar"
+        android:layout_width="0dp"
+        android:layout_height="?actionBarSize"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/dark_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/tickButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/tick_icon"
+                android:src="@drawable/tick_square"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/blue_accent"/>
+
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/close_icon"
+                android:src="@drawable/close_square"
+                app:tint="@color/white"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/user_filled"
+        app:civ_border_color="@color/blue_accent"
+        app:civ_border_width="3dp"
+        app:civ_circle_background_color="@android:color/darker_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editProfileAppBar" />
+
+    <TextView
+        android:id="@+id/editAvatarTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_avatar"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/blue_accent"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileImageView"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

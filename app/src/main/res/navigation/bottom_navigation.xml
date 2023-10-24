@@ -30,4 +30,9 @@
         android:name="com.bishal.incubator.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.bishal.incubator.fragments.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification"/>
 </navigation>

@@ -1,10 +1,14 @@
 package com.bishal.incubator.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bishal.incubator.EditProfileActivity
+import com.bishal.incubator.R
+import com.bishal.incubator.SettingsActivity
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User
@@ -27,13 +31,18 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Setup tabs
+        setUpTabs()
 
-        viewPagerAdaptor = ViewPagerAdaptor(requireActivity().supportFragmentManager)
-        viewPagerAdaptor.addFragments(MyPostFragment(), "My Posts")
-        viewPagerAdaptor.addFragments(MyIncubatesFragment(), "My Incubates")
+        // Edit profile button
+        binding.editProfileButton.setOnClickListener{
+            startActivity(Intent(requireActivity(), EditProfileActivity::class.java))
+        }
 
-        binding.profileViewPager.adapter = viewPagerAdaptor
-        binding.profileTabLayout.setupWithViewPager(binding.profileViewPager)
+        // Settings Button
+        binding.settingsButton.setOnClickListener {
+            startActivity(Intent(requireActivity(), SettingsActivity::class.java))
+        }
 
         return binding.root
     }
@@ -44,11 +53,24 @@ class ProfileFragment : Fragment() {
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
                 binding.profileNameTextView.text = user.name
-                binding.profileUserNameTextView.text = generateUserName(user.email)
+                binding.userNameAppBar.text = generateUserName(user.email)
                 if (!user.image.isNullOrEmpty()) {
                     Picasso.get().load(user.image).into(binding.profileImageView)
                 }
             }
+    }
+
+    private fun setUpTabs() {
+        viewPagerAdaptor = ViewPagerAdaptor(requireActivity().supportFragmentManager)
+        viewPagerAdaptor.addFragments(MyPostFragment())
+        viewPagerAdaptor.addFragments(MyIncubatesFragment())
+        viewPagerAdaptor.addFragments(MyBookmarksFragment())
+        binding.profileViewPager.adapter = viewPagerAdaptor
+        binding.profileTabLayout.setupWithViewPager(binding.profileViewPager)
+
+        binding.profileTabLayout.getTabAt(0)!!.setIcon(R.drawable.grid_view)
+        binding.profileTabLayout.getTabAt(1)!!.setIcon(R.drawable.video_play_outlined)
+        binding.profileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
     }
 
     private fun generateUserName(email: String?) : String {

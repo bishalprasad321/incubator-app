@@ -29,23 +29,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/backButton"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_gravity="start"
-                    android:contentDescription="@string/back_button"
-                    android:src="@drawable/arrow_left"
-                    app:tint="@color/white" />
+                <TextView
+                    android:id="@+id/userNameAppBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/profile_user_name"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
 
                 <ImageView
-                    android:id="@+id/sideDrawerButton"
+                    android:id="@+id/settingsButton"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@string/side_drawer"
-                    android:src="@drawable/menu"
+                    android:src="@drawable/setting"
                     android:layout_gravity="end"
                     app:tint="@color/white" />
 
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/poppins_extrabold"
             android:text="@string/profile_name_hint"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -80,13 +80,15 @@
             app:layout_constraintTop_toBottomOf="@id/profileImageView" />
 
         <TextView
-            android:id="@+id/profileUserNameTextView"
+            android:id="@+id/profileUserBio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="@string/profile_user_name"
+            android:text="@string/profile_user_bio"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp"
+            android:maxLines="1"
+            android:maxLength="30"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileNameTextView" />
@@ -101,7 +103,7 @@
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileUserNameTextView">
+            app:layout_constraintTop_toBottomOf="@id/profileUserBio">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/postsCountSection"
@@ -205,12 +207,12 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/profile_gradient_button_bg"
-            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/profile_button_gradient_outline_bg"
+            android:fontFamily="@font/poppins_regular"
             android:text="@string/edit_profile"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/shareProfileButton"
             app:layout_constraintTop_toBottomOf="@id/profileNumbersSection"
@@ -223,12 +225,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/profile_button_gradient_outline_bg"
-            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/profile_gradient_button_bg"
+            android:fontFamily="@font/poppins_regular"
             android:text="@string/share_profile"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toRightOf="@id/editProfileButton"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileNumbersSection"
@@ -246,15 +248,24 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editProfileButton"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/pink"
-            app:tabSelectedTextColor="@color/pink"
+            app:tabIndicatorGravity="stretch"
+            app:tabIconTint="@color/profile_tab_icons_color"
+            app:tabIndicator="@null"
+            app:tabInlineLabel="false"
+            app:tabMode="fixed"
+            app:tabIndicatorColor="@null"
             app:tabTextColor="@color/white" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/profileViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileTabLayout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

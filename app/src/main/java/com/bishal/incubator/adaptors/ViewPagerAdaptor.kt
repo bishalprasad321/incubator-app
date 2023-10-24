@@ -10,7 +10,6 @@ class ViewPagerAdaptor (fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val fragmentList = mutableListOf<Fragment>()
-    private val titleList = mutableListOf<String>()
     override fun getCount(): Int {
         return fragmentList.size
     }
@@ -19,13 +18,8 @@ class ViewPagerAdaptor (fragmentManager: FragmentManager) :
         return fragmentList[position]
     }
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return titleList[position]
-    }
-
-    fun addFragments(fragment: Fragment, title: String) {
+    fun addFragments(fragment: Fragment) {
         fragmentList.add(fragment)
-        titleList.add(title)
     }
 
 }
