@@ -54,6 +54,7 @@ class ProfileFragment : Fragment() {
                 val user: User = it.toObject<User>()!!
                 binding.profileNameTextView.text = user.name
                 binding.userNameAppBar.text = generateUserName(user.email)
+                binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()) {
                     Picasso.get().load(user.image).into(binding.profileImageView)
                 }

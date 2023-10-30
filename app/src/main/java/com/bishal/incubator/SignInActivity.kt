@@ -3,10 +3,11 @@ package com.bishal.incubator
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.bishal.incubator.databinding.ActivitySignInBinding
 import com.bishal.incubator.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -74,6 +75,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.signInButton.setOnClickListener {
+            binding.signInProgressBar.visibility = View.VISIBLE
             if ((binding.emailEtView.text.toString() == "") or
                 (binding.passwordEtView.editText?.text.toString() == "")) {
                 Toast.makeText(this@SignInActivity, "Please provide email and password", Toast.LENGTH_SHORT).show()
@@ -86,12 +88,14 @@ class SignInActivity : AppCompatActivity() {
                     user.email!!, user.password!!
                 ).addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        binding.signInProgressBar.visibility = View.GONE
                         Toast.makeText(this@SignInActivity, "Sign in successful", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this@SignInActivity, HomeActivity::class.java).addFlags(
                             FLAG_ACTIVITY_REORDER_TO_FRONT))
                         finish()
                     } else {
                         Toast.makeText(this@SignInActivity, task.exception?.localizedMessage, Toast.LENGTH_LONG).show()
+                        binding.signInProgressBar.visibility =View.INVISIBLE
                     }
                 }
             }

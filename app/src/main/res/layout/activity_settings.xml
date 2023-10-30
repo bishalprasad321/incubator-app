@@ -8,7 +8,7 @@
     tools:context=".SettingsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/homeAppBar"
+        android:id="@+id/settingsAppBar"
         android:layout_width="0dp"
         android:layout_height="?actionBarSize"
         android:layout_marginLeft="16dp"
@@ -43,5 +43,27 @@
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/poppins_regular"
+        android:paddingLeft="32dp"
+        android:paddingTop="14dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="14dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/log_out"
+        android:textColor="@color/dark_background"
+        android:textSize="18sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="VisualLintButtonSize" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

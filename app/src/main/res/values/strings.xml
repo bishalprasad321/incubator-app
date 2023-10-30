@@ -36,7 +36,7 @@
     <string name="welcome_to_incubator">Welcome to \nIncubator!</string>
     <string name="forgot_password">Forgot password ? <font color='#0677E8'>Reset</font></string>
     <string name="default_web_client_id">389356540687-4fj12b2fqupttvimagl0r6tf4774de7r.apps.googleusercontent.com</string>
-    <string name="sign_out">Sign out</string>
+    <string name="log_out">Log out</string>
     <!--    facebook app id and client token-->
     <string name="facebook_app_id">652856466990342</string>
     <string name="facebook_client_token">b8fe29a18e20a28d699b8b2222271449</string>
@@ -65,4 +65,7 @@
     <string name="edit_avatar">Edit Avatar</string>
     <string name="chats">Chats</string>
     <string name="settings">Settings</string>
+    <string name="edit_your_name">Edit your name</string>
+    <string name="edit_your_bio">Edit your bio</string>
+    <string name="edit_your_username">Edit your username</string>
 </resources>
