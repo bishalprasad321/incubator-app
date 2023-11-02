@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/searchBar"
+                    android:id="@+id/searchBarEtView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -53,6 +53,7 @@
             android:id="@+id/searchRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="visible"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"

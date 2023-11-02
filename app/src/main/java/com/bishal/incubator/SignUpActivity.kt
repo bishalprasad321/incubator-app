@@ -14,6 +14,7 @@ import com.bishal.incubator.utils.USER_DEFAULT_BIO
 import com.bishal.incubator.utils.USER_DEFAULT_PASSWORD
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER
+import com.bishal.incubator.utils.generateDefaultUserName
 import com.bishal.incubator.utils.uploadImage
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -239,19 +240,5 @@ class SignUpActivity : AppCompatActivity() {
                     Toast.makeText(this@SignUpActivity, it.exception?.localizedMessage, Toast.LENGTH_LONG).show()
                 }
             }
-    }
-
-    private fun generateDefaultUserName(email: String?) : String {
-        var username = "@"
-        for (it in email!!) {
-            username += if (it == '@') {
-                break
-            } else if(it == '.') {
-                '_'
-            } else {
-                it
-            }
-        }
-        return username
     }
 }

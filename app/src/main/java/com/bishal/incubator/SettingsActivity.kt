@@ -63,8 +63,6 @@ class SettingsActivity : AppCompatActivity() {
                     binding.settingsProgressBar.visibility = View.VISIBLE
                     user.delete().addOnCompleteListener {
                         if (it.isSuccessful) {
-                            googleSignInClient.signOut()
-                            Firebase.auth.signOut()
                             binding.settingsProgressBar.visibility = View.GONE
                             Firebase.firestore.collection(USER_NODE).document(user.uid).delete()
                             Toast.makeText(
@@ -72,6 +70,7 @@ class SettingsActivity : AppCompatActivity() {
                                 "Account deleted successfully",
                                 Toast.LENGTH_LONG
                             ).show()
+                            googleSignInClient.signOut()
                             startActivity(Intent(this@SettingsActivity, SignInActivity::class.java))
                             finish()
                         } else {

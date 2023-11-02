@@ -137,7 +137,6 @@
             android:fontFamily="@font/poppins_regular"
             android:textSize="18sp"
             android:background="@drawable/gradient_button_bg"
-            app:cornerRadius="12dp"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:layout_marginTop="8dp"

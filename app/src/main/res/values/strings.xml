@@ -70,4 +70,5 @@
     <string name="edit_your_username">Edit your username</string>
     <string name="change_password">Change password</string>
     <string name="delete_account">Delete Account</string>
+    <string name="follow">Follow</string>
 </resources>

@@ -13,6 +13,7 @@ import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.USER_NODE
+import com.bishal.incubator.utils.generateDefaultUserName
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -53,7 +54,7 @@ class ProfileFragment : Fragment() {
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
                 binding.profileNameTextView.text = user.name
-                binding.userNameAppBar.text = generateUserName(user.email)
+                binding.userNameAppBar.text = generateDefaultUserName(user.email)
                 binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()) {
                     Picasso.get().load(user.image).into(binding.profileImageView)
@@ -72,19 +73,5 @@ class ProfileFragment : Fragment() {
         binding.profileTabLayout.getTabAt(0)!!.setIcon(R.drawable.grid_view)
         binding.profileTabLayout.getTabAt(1)!!.setIcon(R.drawable.video_play_outlined)
         binding.profileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
-    }
-
-    private fun generateUserName(email: String?) : String {
-        var username = "@"
-        for (it in email!!) {
-            username += if (it == '@') {
-                break
-            } else if(it == '.') {
-                '_'
-            } else {
-                it
-            }
-        }
-        return username
     }
 }
