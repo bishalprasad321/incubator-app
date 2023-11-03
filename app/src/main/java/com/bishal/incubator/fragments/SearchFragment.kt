@@ -42,7 +42,7 @@ class SearchFragment : Fragment() {
 
         mUserList = mutableListOf()
         userAdaptor = context?.let {
-            UserAdaptor(it, mUserList as MutableList<Users>, true)
+            UserAdaptor(it, mUserList as MutableList<Users>)
         }
 
         binding.searchRecyclerView.adapter = userAdaptor

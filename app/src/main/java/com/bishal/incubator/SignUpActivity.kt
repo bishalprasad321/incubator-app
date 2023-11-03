@@ -9,7 +9,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bishal.incubator.databinding.ActivitySignUpBinding
+import com.bishal.incubator.models.Followers
+import com.bishal.incubator.models.Following
 import com.bishal.incubator.models.User
+import com.bishal.incubator.utils.FOLLOWER_NODE
+import com.bishal.incubator.utils.FOLLOWING_NODE
 import com.bishal.incubator.utils.USER_DEFAULT_BIO
 import com.bishal.incubator.utils.USER_DEFAULT_PASSWORD
 import com.bishal.incubator.utils.USER_NODE
@@ -46,6 +50,8 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private lateinit var user: User
+    private lateinit var userFollowing: Following
+    private lateinit var userFollowers: Followers
     private var userImage: String? = null
 
     // Gallery Launcher for adding profile image
@@ -163,6 +169,8 @@ class SignUpActivity : AppCompatActivity() {
         // initialisation of lateinit variables
         auth = Firebase.auth
         user = User()
+        userFollowing = Following()
+        userFollowers = Followers()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // Sign in text view (back to sign in activity)
@@ -230,6 +238,34 @@ class SignUpActivity : AppCompatActivity() {
         user.bio = USER_DEFAULT_BIO
         user.username = generateDefaultUserName(email)
 
+        userFollowers.followers = listOf("")
+        userFollowing.following = listOf("")
+
+        Firebase.firestore.collection(FOLLOWER_NODE).document(auth.currentUser!!.uid).set(userFollowers)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(this@SignUpActivity, "Followers node created", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@SignUpActivity, it.exception?.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this@SignUpActivity, exception.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+
+
+        Firebase.firestore.collection(FOLLOWING_NODE).document(auth.currentUser!!.uid).set(userFollowing)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(this@SignUpActivity, "Following node created", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@SignUpActivity, it.exception?.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this@SignUpActivity, exception.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+
         Firebase.firestore.collection(USER_NODE).document(auth.currentUser!!.uid).set(user)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -240,6 +276,9 @@ class SignUpActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@SignUpActivity, it.exception?.localizedMessage, Toast.LENGTH_LONG).show()
                 }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this@SignUpActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
     }
 }
