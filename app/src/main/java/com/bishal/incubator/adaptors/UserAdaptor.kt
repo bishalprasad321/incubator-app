@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bishal.incubator.R
 import com.bishal.incubator.models.Users
+import com.bishal.incubator.utils.generateDisplayUsername
 import com.squareup.picasso.Picasso
 
 class UserAdaptor(private var mContext: Context,
@@ -22,7 +23,7 @@ class UserAdaptor(private var mContext: Context,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = mUser[position]
-        holder.userName.text = user.username
+        holder.userName.text = generateDisplayUsername(user.email)
         holder.profileName.text = user.name
         Picasso.get().load(user.image).placeholder(R.drawable.user_filled).into(holder.profileImage)
         holder.followButton.setOnClickListener{

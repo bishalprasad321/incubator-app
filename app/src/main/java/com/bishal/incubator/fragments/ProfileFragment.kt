@@ -13,7 +13,7 @@ import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.USER_NODE
-import com.bishal.incubator.utils.generateDefaultUserName
+import com.bishal.incubator.utils.generateDisplayUsername
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -54,7 +54,7 @@ class ProfileFragment : Fragment() {
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
                 binding.profileNameTextView.text = user.name
-                binding.userNameAppBar.text = generateDefaultUserName(user.email)
+                binding.userNameAppBar.text = generateDisplayUsername(user.email)
                 binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()) {
                     Picasso.get().load(user.image).into(binding.profileImageView)

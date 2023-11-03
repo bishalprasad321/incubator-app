@@ -10,6 +10,8 @@ data class Users (
     var image: String? = null,
     @PropertyName("name")
     var name: String? = null,
+    @PropertyName("lowercaseName")
+    var lowercaseName: String? = null,
     @PropertyName("email")
     var email: String? = null,
     @PropertyName("password")

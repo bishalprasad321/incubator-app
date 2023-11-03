@@ -1,6 +1,20 @@
 package com.bishal.incubator.utils
 
 fun generateDefaultUserName(email: String?): String {
+    var username = ""
+    for (it in email!!) {
+        username += if (it == '@') {
+            break
+        } else if (it == '.') {
+            '_'
+        } else {
+            it
+        }
+    }
+    return username.lowercase()
+}
+
+fun generateDisplayUsername(email: String?) : String {
     var username = "@"
     for (it in email!!) {
         username += if (it == '@') {
@@ -11,5 +25,5 @@ fun generateDefaultUserName(email: String?): String {
             it
         }
     }
-    return username
+    return username.lowercase()
 }

@@ -17,6 +17,11 @@ import com.bishal.incubator.models.Users
 import com.bishal.incubator.utils.USER_NODE
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -26,6 +31,7 @@ class SearchFragment : Fragment() {
 
     private var mUserList: MutableList<Users>? = null
     private var userAdaptor: UserAdaptor? = null
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +54,19 @@ class SearchFragment : Fragment() {
 
             @SuppressLint("NotifyDataSetChanged")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val searchQuery = binding.searchBarEtView.text?.toString()
+                val searchQuery = binding.searchBarEtView.text?.toString()?.lowercase()
                 if (searchQuery!!.isEmpty()) {
                     // Clear the users list and update ui accordingly
                     mUserList?.clear()
                     userAdaptor?.notifyDataSetChanged()
                 } else {
-                    retrieveUsers(searchQuery)
+                    // cancel previous search
+                    searchJob?.cancel()
+
+                    searchJob = CoroutineScope(Dispatchers.Main).launch {
+                        delay(500)
+                        retrieveUsers(searchQuery)
+                    }
                 }
             }
 
@@ -71,14 +83,16 @@ class SearchFragment : Fragment() {
     private fun retrieveUsers(searchQuery: String) {
         val userCollection = Firebase.firestore.collection(USER_NODE)
         val usernameQuery = userCollection.whereEqualTo("username", searchQuery)
-        val nameQuery = userCollection.whereEqualTo("name", searchQuery)
+        val nameQuery = userCollection.whereEqualTo("lowercaseName", searchQuery)
+
+        mUserList?.clear()
+        userAdaptor?.notifyDataSetChanged()
 
         // Search Query
         usernameQuery.get().addOnSuccessListener { usernameDocuments ->
             for (document in usernameDocuments) {
                 val user = document.toObject(Users::class.java)
                 mUserList?.add(user)
-                userAdaptor?.notifyDataSetChanged()
                 Log.d("User", user.toString())
             }
 
@@ -88,10 +102,10 @@ class SearchFragment : Fragment() {
                     val user = document.toObject(Users::class.java)
                     if (!(mUserList?.contains(user)!!)) {
                         mUserList?.add(user)
-                        userAdaptor?.notifyDataSetChanged()
                         Log.d("User", user.toString())
                     }
                 }
+                userAdaptor?.notifyDataSetChanged()
             }.addOnFailureListener {  exception ->
                 Toast.makeText(requireContext(), exception.localizedMessage?.toString(), Toast.LENGTH_LONG).show()
             }

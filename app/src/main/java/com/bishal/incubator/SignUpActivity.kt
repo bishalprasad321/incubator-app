@@ -223,6 +223,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun saveUserToDatabase(name: String?, email: String?, image: String?, password: String?) {
         user.name = name
+        user.lowercaseName = name?.lowercase()
         user.email = email
         user.image = image
         user.password = password
