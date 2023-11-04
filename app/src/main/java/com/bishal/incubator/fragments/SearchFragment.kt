@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.UserAdaptor
 import com.bishal.incubator.databinding.FragmentSearchBinding
 import com.bishal.incubator.models.Users
@@ -23,7 +24,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), UserAdaptor.OnUserItemClickListener {
 
     private val binding: FragmentSearchBinding by lazy {
         FragmentSearchBinding.inflate(layoutInflater)
@@ -32,6 +33,15 @@ class SearchFragment : Fragment() {
     private var mUserList: MutableList<Users>? = null
     private var userAdaptor: UserAdaptor? = null
     private var searchJob: Job? = null
+
+    override fun onUserItemClicked(userId: String) {
+        // Handle the navigation to the new fragment here
+        val fragment = UserProfileFragment.newInstance(userId)
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.navHostFragment, fragment)
+        transaction?.addToBackStack(null) // Optional, to allow back navigation
+        transaction?.commit()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +54,7 @@ class SearchFragment : Fragment() {
         userAdaptor = context?.let {
             UserAdaptor(it, mUserList as MutableList<Users>)
         }
+        userAdaptor?.setOnUserItemClickListener(this)
 
         binding.searchRecyclerView.adapter = userAdaptor
 

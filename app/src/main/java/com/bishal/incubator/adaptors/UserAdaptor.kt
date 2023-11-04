@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.bishal.incubator.R
@@ -26,6 +27,13 @@ class UserAdaptor(
     private var mUser: MutableList<Users>
 ) :
     RecyclerView.Adapter<UserAdaptor.ViewHolder>() {
+
+    interface OnUserItemClickListener {
+        fun onUserItemClicked(userId: String)
+    }
+
+    private var clickListener: OnUserItemClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.user_item_layout, parent,false)
         return ViewHolder(view)
@@ -39,6 +47,25 @@ class UserAdaptor(
 
         holder.profileName.text = searchedUser.name
         Picasso.get().load(searchedUser.image).placeholder(R.drawable.user_filled).into(holder.profileImage)
+
+        // Get references to the Firestore collections
+        val followingRef = Firebase.firestore.collection(FOLLOWING_NODE).document(currentUser)
+
+        // Check if the current user is following the searched user
+        followingRef.get().addOnSuccessListener { followingDocument ->
+            val followingData = followingDocument.data
+            if (followingData != null && searchedUser.id.toString() in followingData["following"] as List<*>) {
+                // The current user is following the searched user
+                holder.followButton.text = "Following"
+                holder.followButton.setTextColor(getColor(mContext, R.color.dark_background))
+                holder.followButton.setBackgroundResource(R.drawable.image_button_bg)
+            } else {
+                // The current user is not following the searched user
+                holder.followButton.text = "Follow"
+                holder.followButton.setTextColor(getColor(mContext, R.color.white))
+                holder.followButton.setBackgroundResource(R.drawable.gradient_button_bg)
+            }
+        }
 
         holder.followButton.setOnClickListener{
             if (holder.followButton.text.toString() == "Follow") {
@@ -69,6 +96,19 @@ class UserAdaptor(
                     .update("followers", FieldValue.arrayRemove(currentUser))
             }
         }
+
+        // start user profile fragment to show that user's details
+        holder.profileImage.setOnClickListener {
+            clickListener?.onUserItemClicked(searchedUser.id.toString())
+        }
+
+        holder.profileName.setOnClickListener {
+            clickListener?.onUserItemClicked(searchedUser.id.toString())
+        }
+
+        holder.userCard.setOnClickListener{
+            clickListener?.onUserItemClicked(searchedUser.id.toString())
+        }
     }
 
     override fun getItemCount(): Int {
@@ -76,10 +116,15 @@ class UserAdaptor(
     }
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var userCard: ConstraintLayout = itemView.findViewById(R.id.searchedUserDetails)
         var userName: TextView = itemView.findViewById(R.id.profileUserNameTextView)
         var profileName: TextView = itemView.findViewById(R.id.profileNameTextView)
         var profileImage: ImageView = itemView.findViewById(R.id.profileImageView)
         var followButton: Button = itemView.findViewById(R.id.followButton)
+    }
+
+    fun setOnUserItemClickListener(listener: OnUserItemClickListener) {
+        this.clickListener = listener
     }
 
 }
