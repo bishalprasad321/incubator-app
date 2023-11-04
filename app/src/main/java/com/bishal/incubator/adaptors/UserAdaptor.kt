@@ -15,7 +15,6 @@ import com.bishal.incubator.R
 import com.bishal.incubator.models.Users
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
-import com.bishal.incubator.utils.generateDisplayUsername
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -43,7 +42,7 @@ class UserAdaptor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val searchedUser = mUser[position]
         val currentUser = FirebaseAuth.getInstance().currentUser!!.uid
-        holder.userName.text = generateDisplayUsername(searchedUser.email)
+        holder.userName.text = "@${searchedUser.username}"
 
         holder.profileName.text = searchedUser.name
         Picasso.get().load(searchedUser.image).placeholder(R.drawable.user_filled).into(holder.profileImage)

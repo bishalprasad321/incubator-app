@@ -14,12 +14,9 @@ import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
 import com.bishal.incubator.utils.USER_NODE
-import com.bishal.incubator.utils.generateDisplayUsername
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
@@ -62,6 +59,14 @@ class UserProfileFragment : Fragment() {
                 com.google.firebase.Firebase.firestore.collection(FOLLOWER_NODE)
                     .document(userId)
                     .update("followers", FieldValue.arrayUnion(currentUser))
+
+                // Update the follower count
+                Firebase.firestore.collection(FOLLOWER_NODE).document(userId)
+                    .get().addOnSuccessListener { followersDocument ->
+                        val followersData = followersDocument.data
+                        val followersCount = (followersData?.get("followers") as List<*>).size
+                        binding.followersCount.text = followersCount.toString()
+                    }
             } else {
                 // Unfollow action
                 binding.followProfileButton.text = "Follow"
@@ -74,6 +79,14 @@ class UserProfileFragment : Fragment() {
                 // Remove the current user from the follower's list of the searched user's account
                 com.google.firebase.Firebase.firestore.collection(FOLLOWER_NODE).document(userId)
                     .update("followers", FieldValue.arrayRemove(currentUser))
+
+                // Update the follower count
+                Firebase.firestore.collection(FOLLOWER_NODE).document(userId)
+                    .get().addOnSuccessListener { followersDocument ->
+                        val followersData = followersDocument.data
+                        val followersCount = (followersData?.get("followers") as List<*>).size
+                        binding.followersCount.text = followersCount.toString()
+                    }
             }
         }
 
@@ -100,13 +113,15 @@ class UserProfileFragment : Fragment() {
         binding.profileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun retrieveProfileInfo(userId: String) {
         Firebase.firestore.collection(USER_NODE).document(userId)
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
-                retrieveFollowInfo(userId)
+                retrieveFollowingInfo(userId)
+                retrieveFollowersInfo(userId)
                 binding.profileNameTextView.text = user.name
-                binding.userNameAppBar.text = generateDisplayUsername(user.email)
+                binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()){
                     Picasso.get().load(user.image).into(binding.profileImageView)
@@ -115,15 +130,18 @@ class UserProfileFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun retrieveFollowInfo(userId: String) {
+    private fun retrieveFollowingInfo(userId: String) {
         // Get references to the Firestore collections
         val followingRef = com.google.firebase.Firebase.firestore.collection(FOLLOWING_NODE)
-            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .document(currentUser)
 
         // Check if the current user is following the searched user
         followingRef.get().addOnSuccessListener { followingDocument ->
             val followingData = followingDocument.data
-            if (followingData != null && userId in followingData["following"] as List<*>) {
+            val followingCount = (followingData?.get("following") as List<*>).size
+            binding.followingCount.text = followingCount.toString()
+
+            if (userId in followingData["following"] as List<*>) {
                 // The current user is following the searched user
                 binding.followProfileButton.text = "Following"
                 binding.followProfileButton.setBackgroundResource(R.drawable.profile_button_gradient_outline_bg)
@@ -132,6 +150,19 @@ class UserProfileFragment : Fragment() {
                 binding.followProfileButton.text = "Follow"
                 binding.followProfileButton.setBackgroundResource(R.drawable.profile_gradient_button_bg)
             }
+        }
+    }
+
+    private fun retrieveFollowersInfo(userId: String) {
+        // Get references to the Firestore collections
+        val followersRef = com.google.firebase.Firebase.firestore.collection(FOLLOWER_NODE)
+            .document(userId)
+
+        // Get the followers count of the user
+        followersRef.get().addOnSuccessListener { followersDocument ->
+            val followersData = followersDocument.data
+            val followersCount = (followersData?.get("followers") as List<*>).size
+            binding.followersCount.text = followersCount.toString()
         }
     }
 
