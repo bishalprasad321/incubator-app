@@ -11,15 +11,15 @@ import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER
 import com.bishal.incubator.utils.uploadImage
+import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
-import com.squareup.picasso.Picasso
 
 class EditProfileActivity : AppCompatActivity() {
 
-    private val binding : ActivityEditProfileBinding by lazy {
+    private val binding: ActivityEditProfileBinding by lazy {
         ActivityEditProfileBinding.inflate(layoutInflater)
     }
 
@@ -31,18 +31,23 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var updatedUserDetails: User
 
     // Gallery Launcher for editing profile image
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let{
-            uploadImage(uri, USER_PROFILE_FOLDER) {
-                if (it == null) {
-                    Toast.makeText(this@EditProfileActivity, "Failed to load image", Toast.LENGTH_SHORT).show()
-                } else {
-                    profileImage = it
-                    binding.profileImageView.setImageURI(uri)
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                uploadImage(uri, USER_PROFILE_FOLDER) {
+                    if (it == null) {
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            "Failed to load image",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        profileImage = it
+                        binding.profileImageView.setImageURI(uri)
+                    }
                 }
             }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +67,8 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.userNameEtView.setText(user.username)
                 binding.nameEtView.setText(user.name)
                 binding.bioTextView.setText(user.bio)
-                Picasso.get().load(user.image).into(binding.profileImageView)
+                Glide.with(this@EditProfileActivity).load(user.image)
+                    .placeholder(R.drawable.user_filled).into(binding.profileImageView)
                 profileImage = user.image!!
                 binding.loadingDataProgressBar.visibility = View.GONE
 
@@ -72,11 +78,12 @@ class EditProfileActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 binding.loadingDataProgressBar.visibility = View.INVISIBLE
-                Toast.makeText(this@EditProfileActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@EditProfileActivity, it.localizedMessage, Toast.LENGTH_LONG)
+                    .show()
             }
 
         // On click listener for (profile image) edit avatar option
-        binding.editAvatarTextView.setOnClickListener {
+        binding.changeAvatarTextView.setOnClickListener {
             galleryLauncher.launch("image/*")
         }
 
@@ -107,11 +114,16 @@ class EditProfileActivity : AppCompatActivity() {
             .set(updatedUserDetails, SetOptions.merge())
             .addOnSuccessListener {
                 binding.loadingDataProgressBar.visibility = View.GONE
-                Toast.makeText(this@EditProfileActivity, "Profile updated successfully!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@EditProfileActivity,
+                    "Profile updated successfully!!",
+                    Toast.LENGTH_SHORT
+                ).show()
                 startActivity(Intent(this@EditProfileActivity, HomeActivity::class.java))
                 finish()
-            } .addOnFailureListener {
-                Toast.makeText(this@EditProfileActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
+            }.addOnFailureListener {
+                Toast.makeText(this@EditProfileActivity, it.localizedMessage, Toast.LENGTH_LONG)
+                    .show()
                 binding.loadingDataProgressBar.visibility = View.INVISIBLE
             }
     }

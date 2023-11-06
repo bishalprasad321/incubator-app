@@ -15,11 +15,11 @@ import com.bishal.incubator.R
 import com.bishal.incubator.models.Users
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
+import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
-import com.squareup.picasso.Picasso
 
 class UserAdaptor(
     private var mContext: Context,
@@ -45,7 +45,7 @@ class UserAdaptor(
         holder.userName.text = "@${searchedUser.username}"
 
         holder.profileName.text = searchedUser.name
-        Picasso.get().load(searchedUser.image).placeholder(R.drawable.user_filled).into(holder.profileImage)
+        Glide.with(mContext).load(searchedUser.image).placeholder(R.drawable.user_filled).into(holder.profileImage)
 
         // Get references to the Firestore collections
         val followingRef = Firebase.firestore.collection(FOLLOWING_NODE).document(currentUser)

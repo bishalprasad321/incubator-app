@@ -14,11 +14,11 @@ import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
 import com.bishal.incubator.utils.USER_NODE
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
 
 
 class UserProfileFragment : Fragment() {
@@ -124,7 +124,8 @@ class UserProfileFragment : Fragment() {
                 binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()){
-                    Picasso.get().load(user.image).into(binding.profileImageView)
+                    Glide.with(this@UserProfileFragment).load(user.image)
+                        .placeholder(R.drawable.user_filled).into(binding.profileImageView)
                 }
             }
     }

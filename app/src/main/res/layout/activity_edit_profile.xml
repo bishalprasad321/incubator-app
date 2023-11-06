@@ -58,11 +58,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editProfileAppBar" />
 
+
     <TextView
-        android:id="@+id/editAvatarTextView"
+        android:id="@+id/changeAvatarTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit_avatar"
+        android:text="@string/change_avatar"
         android:fontFamily="@font/poppins_bold"
         android:textColor="@color/blue_accent"
         android:textSize="14sp"
@@ -94,7 +95,7 @@
         android:autofillHints="name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editAvatarTextView"
+        app:layout_constraintTop_toBottomOf="@id/changeAvatarTextView"
         tools:ignore="VisualLintTextFieldSize"
         android:importantForAutofill="no" />
 
