@@ -11,7 +11,7 @@
         android:title="@string/search"/>
 
     <item
-        android:id="@+id/addFragment"
+        android:id="@+id/addActivity"
         android:icon="@drawable/nav_add_icon"
         android:title="@string/add"/>
 

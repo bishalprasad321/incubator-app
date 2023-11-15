@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.incubateButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, SignInActivity::class.java))
+            finish()
         }
     }
 }

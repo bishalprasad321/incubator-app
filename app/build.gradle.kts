@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -74,7 +75,13 @@ dependencies {
 
     // glide image loading dependency
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
+
+    implementation("io.coil-kt:coil:2.5.0")
 
     // crop image library
     implementation("com.vanniktech:android-image-cropper:4.5.0")
+
+    // dexter library for permissions
+    implementation ("com.karumi:dexter:6.2.3")
 }

@@ -6,3 +6,5 @@ const val FOLLOWING_NODE = "Following"
 const val USER_PROFILE_FOLDER = "Profile"
 const val USER_DEFAULT_BIO = "Hey there! I am using incubator"
 const val USER_DEFAULT_PASSWORD = "123456"
+const val GALLERY_REQUEST_CODE = 1001
+const val CAMERA_REQUEST_CODE = 1002
