@@ -1,10 +1,11 @@
-package com.bishal.incubator
+package com.bishal.incubator.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivityHomeBinding
 
 

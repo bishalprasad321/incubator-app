@@ -1,4 +1,4 @@
-package com.bishal.incubator.backup_codes
+package com.bishal.incubator.utils.backup_codes
 
 import android.content.Context
 import android.database.Cursor

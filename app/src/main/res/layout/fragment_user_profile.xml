@@ -7,7 +7,7 @@
     android:background="@color/dark_background"
     android:contentDescription="@string/user_s_profile"
     android:orientation="vertical"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

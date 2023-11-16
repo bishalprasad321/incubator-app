@@ -1,4 +1,4 @@
-package com.bishal.incubator.fragments
+package com.bishal.incubator.profile
 
 import android.annotation.SuppressLint
 import android.os.Bundle

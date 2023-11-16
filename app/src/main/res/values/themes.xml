@@ -20,4 +20,24 @@
     <style name="tab_text" parent="TextAppearance.Design.Tab">
         <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/tab_layout_bg</item>
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <!-- Customize positive button -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/MyPositiveButtonStyle</item>
+
+        <!-- Customize negative button -->
+        <item name="android:buttonBarNegativeButtonStyle">@style/MyNegativeButtonStyle</item>
+
+    </style>
+
+    <style name="MyPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@android:color/holo_red_light</item>
+    </style>
+
+    <style name="MyNegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/blue_accent</item>
+    </style>
 </resources>

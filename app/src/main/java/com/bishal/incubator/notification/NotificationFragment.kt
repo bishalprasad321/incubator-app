@@ -1,4 +1,4 @@
-package com.bishal.incubator.fragments
+package com.bishal.incubator.notification
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.bishal.incubator
+package com.bishal.incubator.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivityEditProfileBinding
+import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER

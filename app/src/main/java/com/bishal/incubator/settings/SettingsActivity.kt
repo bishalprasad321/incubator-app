@@ -1,4 +1,4 @@
-package com.bishal.incubator
+package com.bishal.incubator.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivitySettingsBinding
+import com.bishal.incubator.sign_up_log_in.SignInActivity
 import com.bishal.incubator.utils.USER_NODE
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_app_bg"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".sign_up_log_in.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

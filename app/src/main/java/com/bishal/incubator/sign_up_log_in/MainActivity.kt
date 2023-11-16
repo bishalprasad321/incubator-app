@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.bishal.incubator
+package com.bishal.incubator.sign_up_log_in
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.bishal.incubator.fragments
+package com.bishal.incubator.profile
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bishal.incubator.EditProfileActivity
 import com.bishal.incubator.R
-import com.bishal.incubator.SettingsActivity
+import com.bishal.incubator.settings.SettingsActivity
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User

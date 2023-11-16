@@ -1,4 +1,4 @@
-package com.bishal.incubator.fragments
+package com.bishal.incubator.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.UserAdaptor
 import com.bishal.incubator.databinding.FragmentSearchBinding
+import com.bishal.incubator.profile.UserProfileFragment
 import com.bishal.incubator.models.Users
 import com.bishal.incubator.utils.USER_NODE
 import com.google.firebase.Firebase

@@ -5,140 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
-    tools:context=".AddPostActivity">
+    tools:context=".add_post.AddPostActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/addPostAppBar"
-        android:layout_width="0dp"
-        android:layout_height="?actionBarSize"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/dark_background"
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/newPostViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/post_selection_ui"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/postCategoryTab"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/postCategoryTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tab_layout_bg"
+        android:contentDescription="@string/post_category_selection"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        app:tabTextColor="@color/grey"
+        app:tabSelectedTextColor="@color/white"
+        app:tabIndicator="@null"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/tickButton"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/tick_icon"
-                android:src="@drawable/tick_square"
-                app:tint="@color/white" />
-
-            <ImageView
-                android:id="@+id/closeButton"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="start"
-                android:contentDescription="@string/close_icon"
-                android:src="@drawable/close_square"
-                app:tint="@color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_bold"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/new_post"
-                android:textColor="@color/white"
-                android:textSize="22sp" />
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/postViewCard"
-        android:layout_width="0dp"
-        android:layout_height="500dp"
-        android:layout_margin="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addPostAppBar">
-
-        <ImageView
-            android:id="@+id/postImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/dark_background"
-            android:contentDescription="@string/user_new_post"
-            android:scaleType="centerCrop"
-            android:src="@drawable/splash"
-            tools:ignore="ImageContrastCheck" />
-
-        <ImageButton
-            android:id="@+id/fitImageButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="start|bottom"
-            android:layout_margin="12dp"
-            android:alpha="0.7"
-            android:background="@drawable/action_button_bg"
-            android:contentDescription="@string/fit_screen"
-            android:src="@drawable/fit_screen"
-            app:tint="@color/white" />
-
-        <ImageButton
-            android:id="@+id/actionCameraButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="12dp"
-            android:alpha="0.7"
-            android:background="@drawable/action_button_bg"
-            android:contentDescription="@string/camera_icon"
-            android:src="@drawable/camera_outline"
-            app:tint="@color/white" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-<!--    <TextView-->
-<!--        android:id="@+id/selectionImageTextView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="32dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginRight="32dp"-->
-<!--        android:fontFamily="@font/poppins_bold"-->
-<!--        android:text="@string/select_picture"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="24sp"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/postViewCard" />-->
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/photoGalleryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="?actionBarSize"
-        android:layout_gravity="start|bottom"
-        android:layout_margin="12dp"
-        android:alpha="0.7"
-        android:text="@string/select_from_gallery"
-        android:textAllCaps="false"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:fontFamily="@font/poppins_bold"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:drawableStart="@drawable/photo_gallery"
-        android:drawableTint="@color/white"
-        android:drawablePadding="16dp"
-        android:background="@drawable/action_button_bg"
-        app:tint="@color/white"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/postViewCard"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

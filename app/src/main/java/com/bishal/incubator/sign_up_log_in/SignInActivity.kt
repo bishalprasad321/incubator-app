@@ -1,4 +1,4 @@
-package com.bishal.incubator
+package com.bishal.incubator.sign_up_log_in
 
 import android.app.Activity
 import android.content.Intent
@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivitySignInBinding
+import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
