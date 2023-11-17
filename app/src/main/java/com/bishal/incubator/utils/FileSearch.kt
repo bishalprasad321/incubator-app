@@ -14,7 +14,7 @@ class FileSearch {
         val file = File(directory)
         val listFiles = file.listFiles()
         if (listFiles != null) {
-            (0..listFiles.size).forEach { i ->
+            (listFiles.indices).forEach { i ->
                 if (listFiles[i].isDirectory) {
                     pathArray.add(listFiles[i].absolutePath)
                 }
@@ -33,7 +33,7 @@ class FileSearch {
         val file = File(directory)
         val listFiles = file.listFiles()
         if (listFiles != null) {
-            (0..listFiles.size).forEach { i ->
+            (listFiles.indices).forEach { i ->
                 if (listFiles[i].isFile) {
                     pathArray.add(listFiles[i].absolutePath)
                 }

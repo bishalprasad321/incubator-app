@@ -4,17 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.bishal.incubator.R
-import com.bishal.incubator.models.ImageItem
 
-class ImageAdaptor(private val images: ArrayList<ImageItem>) : RecyclerView.Adapter<ImageAdaptor.ImageViewHolder>() {
+class ImageAdapter(private val images: ArrayList<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     private var onImageItemClickListener: OnImageItemClickListener? = null
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.itemImageView)
+        val imageCard: CardView = itemView.findViewById(R.id.itemImageCard)
     }
 
     // Interface for sending the selected image path to the parent activity
@@ -31,12 +34,20 @@ class ImageAdaptor(private val images: ArrayList<ImageItem>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        // device parameters
+        val deviceMetrics = holder.itemView.context.resources.displayMetrics
+        val screenWidth = deviceMetrics.widthPixels
+
+        // set layout params
+        holder.imageCard.layoutParams = ConstraintLayout.LayoutParams(screenWidth / 4, screenWidth / 4)
+        holder.imageCard.marginTop
+
         val imageItem = images[position]
-        holder.imageView.load(imageItem.imagePath) {
+        holder.imageView.load(imageItem) {
             placeholder(R.drawable.splash)
         }
         holder.imageView.setOnClickListener {
-            onImageItemClickListener?.onImageItemClick(imageItem.imagePath)
+            onImageItemClickListener?.onImageItemClick(imageItem)
         }
     }
 

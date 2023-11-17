@@ -2,12 +2,9 @@
 
 package com.bishal.incubator.add_post
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -18,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.ActivityAddPostBinding
-import com.bishal.incubator.home.HomeActivity
+import com.bishal.incubator.utils.allPermission
 
 
 class AddPostActivity : AppCompatActivity() {
@@ -29,7 +26,6 @@ class AddPostActivity : AppCompatActivity() {
 
     private lateinit var newPostViewPagerAdaptor: ViewPagerAdaptor
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -44,9 +40,6 @@ class AddPostActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(
-            Intent(this@AddPostActivity, HomeActivity::class.java)
-        )
         finish()
     }
 
@@ -70,21 +63,7 @@ class AddPostActivity : AppCompatActivity() {
     /*
     * Checking permissions
     * Handle the latest versions of android for permissions
-    * */
-    private val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_MEDIA_IMAGES
-        )
-    } else {
-        arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-    }
-
-    /*
+    *
     * permission launcher
     * */
     private val permissionRequestLauncher = registerForActivityResult(
@@ -121,15 +100,21 @@ class AddPostActivity : AppCompatActivity() {
         builder.show()
     }
 
+    /*
+    * Check if already has permission, if **not** then launch permission launcher
+    * */
     private fun checkPermissionRequired() {
         if (hasPermission()) {
             Log.d("permissions", "All permissions granted")
         } else {
-            permissionRequestLauncher.launch(permission)
+            permissionRequestLauncher.launch(allPermission)
         }
     }
 
-    private fun hasPermission(): Boolean = permission.all {
+    /*
+    * Self check permission from the permissions array
+    * */
+    private fun hasPermission(): Boolean = allPermission.all {
         ActivityCompat.checkSelfPermission(
             this@AddPostActivity,
             it

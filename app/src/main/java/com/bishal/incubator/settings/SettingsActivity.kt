@@ -108,5 +108,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         Firebase.auth.signOut()
+        finish()
     }
 }

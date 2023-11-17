@@ -117,29 +117,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp">
+            android:paddingStart="0dp">
 
-            <Spinner
-                android:id="@+id/imagePathSpinner"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"/>
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/add_multiple_check"
-                android:background="@android:color/transparent"
-                app:tint="@color/white"
-                android:layout_gravity="end|center_vertical"
-                android:contentDescription="@string/select_multiple_check"/>
+                <Spinner
+                    android:id="@+id/imagePathSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="4"
+                    android:popupBackground="@color/dark_background"
+                    android:dropDownWidth="match_parent"/>
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/add_multiple_check"
+                    android:background="@android:color/transparent"
+                    app:tint="@color/white"
+                    android:layout_weight="1"
+                    android:layout_gravity="end|center_vertical"
+                    android:contentDescription="@string/select_multiple_check"/>
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/galleryRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
