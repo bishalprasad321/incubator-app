@@ -82,6 +82,10 @@
     <string name="post_category_selection">Post category selection</string>
     <string name="next">Next</string>
     <string name="post_selection_ui">post selection ui</string>
-    <string name="image_path">Recents</string>
+    <string name="image_path">Recent</string>
     <string name="select_multiple_check">select multiple check</string>
+    <string name="share">Share</string>
+    <string name="post_selected_for_post">Image for post</string>
+    <string name="caption_screen">caption screen</string>
+    <string name="write_caption">Write something about your post…</string>
 </resources>

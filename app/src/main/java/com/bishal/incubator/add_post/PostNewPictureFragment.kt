@@ -34,6 +34,8 @@ class PostNewPictureFragment : Fragment(), ImageAdapter.OnImageItemClickListener
 
     private var squareFit: Boolean = false
 
+    private lateinit var selectedImage : String
+
     private lateinit var directories : ArrayList<String>
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -75,6 +77,12 @@ class PostNewPictureFragment : Fragment(), ImageAdapter.OnImageItemClickListener
             } else {
                 activity?.finish()
             }
+        }
+
+        // next button on click
+        binding.nextButton.setOnClickListener {
+            startActivity(Intent(requireContext(), PostNextActivity::class.java)
+                .putExtra("selectedImage", selectedImage))
         }
 
         // camera button on click
@@ -161,6 +169,11 @@ class PostNewPictureFragment : Fragment(), ImageAdapter.OnImageItemClickListener
 
         binding.galleryRecyclerView.adapter = galleryAdapter
         galleryAdapter.notifyDataSetChanged()
+
+        selectedImage = imageUrl[0]
+        binding.postImageView.load(imageUrl[0]) {
+            placeholder(R.drawable.splash)
+        }
     }
 
     /*
@@ -187,6 +200,7 @@ class PostNewPictureFragment : Fragment(), ImageAdapter.OnImageItemClickListener
     * Set the selected image to the post image view, for **new post**
     * */
     override fun onImageItemClick(imagePath: String) {
+        selectedImage = imagePath
         binding.postImageView.load(imagePath) {
             placeholder(R.drawable.splash)
         }
