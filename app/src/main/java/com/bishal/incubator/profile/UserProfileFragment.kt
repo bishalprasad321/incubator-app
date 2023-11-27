@@ -7,14 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.FragmentUserProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
+import com.bishal.incubator.utils.POSTS_NODE
 import com.bishal.incubator.utils.USER_NODE
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
@@ -120,13 +121,30 @@ class UserProfileFragment : Fragment() {
                 val user: User = it.toObject<User>()!!
                 retrieveFollowingInfo(userId)
                 retrieveFollowersInfo(userId)
+                getUserPosts(userId)
                 binding.profileNameTextView.text = user.name
                 binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()){
-                    Glide.with(this@UserProfileFragment).load(user.image)
-                        .placeholder(R.drawable.user_filled).into(binding.profileImageView)
+                    binding.profileImageView.load(user.image){
+                        placeholder(R.drawable.user_filled)
+                    }
                 }
+            }
+    }
+
+    /*
+   * get total number of user's posts
+   * */
+    private fun getUserPosts(userId: String) {
+        Firebase.firestore.collection(POSTS_NODE)
+            .document(userId).get().addOnSuccessListener { postsDocument ->
+                val postsData = postsDocument.data!!
+                val postsCount = (postsData["posts"] as List<*>).size
+                binding.postsCount.text = postsCount.toString()
+            }
+            .addOnFailureListener {
+                Log.d("post count", it.localizedMessage!!)
             }
     }
 

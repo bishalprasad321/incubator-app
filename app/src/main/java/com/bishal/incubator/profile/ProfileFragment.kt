@@ -3,6 +3,7 @@ package com.bishal.incubator.profile
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
+import com.bishal.incubator.utils.POSTS_NODE
 import com.bishal.incubator.utils.USER_NODE
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -63,6 +65,7 @@ class ProfileFragment : Fragment() {
                 val user: User = it.toObject<User>()!!
                 retrieveFollowersInfo()
                 retrieveFollowingInfo()
+                getUserPosts()
                 binding.profileNameTextView.text = user.name
                 binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
@@ -73,6 +76,9 @@ class ProfileFragment : Fragment() {
             }
     }
 
+    /*
+    * get total number of followers
+    * */
     private fun retrieveFollowersInfo() {
         Firebase.firestore.collection(FOLLOWER_NODE)
             .document(currentUserId).get().addOnSuccessListener { followersDocument ->
@@ -82,6 +88,9 @@ class ProfileFragment : Fragment() {
             }
     }
 
+    /*
+    * get total number of followings
+    * */
     private fun retrieveFollowingInfo() {
         Firebase.firestore.collection(FOLLOWING_NODE)
             .document(currentUserId).get().addOnSuccessListener { followingDocument ->
@@ -91,6 +100,24 @@ class ProfileFragment : Fragment() {
             }
     }
 
+    /*
+    * get total number of user's posts
+    * */
+    private fun getUserPosts() {
+        Firebase.firestore.collection(POSTS_NODE)
+            .document(currentUserId).get().addOnSuccessListener { postsDocument ->
+                val postsData = postsDocument.data!!
+                val postsCount = (postsData["posts"] as List<*>).size
+                binding.postsCount.text = postsCount.toString()
+            }
+            .addOnFailureListener {
+                Log.d("post count", it.localizedMessage!!)
+            }
+    }
+
+    /*
+    * set up tab layout : My posts | My Incubates | My Bookmarks
+    * */
     private fun setUpTabs() {
         viewPagerAdaptor = ViewPagerAdaptor(requireActivity().supportFragmentManager)
         viewPagerAdaptor.addFragments(MyPostFragment())

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,9 +14,11 @@ import com.bishal.incubator.databinding.ActivitySignUpBinding
 import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.Followers
 import com.bishal.incubator.models.Following
+import com.bishal.incubator.models.Posts
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
+import com.bishal.incubator.utils.POSTS_NODE
 import com.bishal.incubator.utils.USER_DEFAULT_BIO
 import com.bishal.incubator.utils.USER_DEFAULT_PASSWORD
 import com.bishal.incubator.utils.USER_NODE
@@ -54,9 +57,12 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var user: User
     private lateinit var userFollowing: Following
     private lateinit var userFollowers: Followers
+    private lateinit var userPosts : Posts
     private var userImage: String? = null
 
-    // Gallery Launcher for adding profile image
+    /*
+    * Gallery launcher for getting the profile image at sign up
+    * */
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let{
             uploadImage(uri, USER_PROFILE_FOLDER) {
@@ -70,7 +76,10 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    // Intent launcher for google login
+    /*
+    * Launcher for google accounts selection for sign up
+    * Show progress bar until firebase is creating a user node to the data base
+    * */
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
@@ -122,6 +131,10 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
+    /*
+    * If the same google account is already registered, the ask user to log in.
+    * Otherwise, take user to the home screen
+    * */
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
@@ -134,6 +147,10 @@ class SignUpActivity : AppCompatActivity() {
     // Initialize facebook login button
     private val mCallbackManager: CallbackManager = CallbackManager.Factory.create()
 
+
+    /*
+    * OnCreate
+    * */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -162,7 +179,10 @@ class SignUpActivity : AppCompatActivity() {
             },
         )
 
-        // Google sign in options
+        /*
+        * Google sign in options : this pops up a window for the user to select an account from a list of accounts
+        * available at the user's device
+        * */
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -173,6 +193,7 @@ class SignUpActivity : AppCompatActivity() {
         user = User()
         userFollowing = Following()
         userFollowers = Followers()
+        userPosts = Posts()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // Sign in text view (back to sign in activity)
@@ -240,39 +261,29 @@ class SignUpActivity : AppCompatActivity() {
         user.bio = USER_DEFAULT_BIO
         user.username = generateDefaultUserName(email)
 
-        userFollowers.followers = listOf("")
-        userFollowing.following = listOf("")
+        userFollowers.followers = listOf()
+        userFollowing.following = listOf()
+        userPosts.posts = listOf()
 
-        Firebase.firestore.collection(FOLLOWER_NODE).document(auth.currentUser!!.uid).set(userFollowers)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(this@SignUpActivity, "Followers node created", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this@SignUpActivity, it.exception?.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this@SignUpActivity, exception.localizedMessage, Toast.LENGTH_LONG).show()
-            }
+        // Create a Follower node for the user at the firestore database
+        createFollowerNode(auth.currentUser!!.uid)
 
+        // Create a following node for the user at the firestore database
+        createFollowingNode(auth.currentUser!!.uid)
 
-        Firebase.firestore.collection(FOLLOWING_NODE).document(auth.currentUser!!.uid).set(userFollowing)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(this@SignUpActivity, "Following node created", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this@SignUpActivity, it.exception?.localizedMessage, Toast.LENGTH_LONG).show()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this@SignUpActivity, exception.localizedMessage, Toast.LENGTH_LONG).show()
-            }
+        // Create a user node at the firestore database
+        createUserNode(auth.currentUser!!.uid)
 
-        Firebase.firestore.collection(USER_NODE).document(auth.currentUser!!.uid).set(user)
+        // Create a Posts node for the user at the firestore database
+        createPostsNode(auth.currentUser!!.uid)
+    }
+
+    private fun createUserNode(userId: String?) {
+        Firebase.firestore.collection(USER_NODE).document(userId!!).set(user)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     binding.signUpProgressBar.visibility = View.GONE
-                    Toast.makeText(this@SignUpActivity, "Sign up successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity, "Welcome to Incubator, ${user.name}!!", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
                     finish()
                 } else {
@@ -281,6 +292,48 @@ class SignUpActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Toast.makeText(this@SignUpActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun createFollowerNode(userId: String?) {
+        Firebase.firestore.collection(FOLLOWER_NODE).document(userId!!).set(userFollowers)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d("userFollowerNode", "Created Successfully")
+                } else {
+                    Log.d("userFollowerNode", "failed")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("userFollowerNode", "failed : ${exception.localizedMessage}")
+            }
+    }
+
+    private fun createFollowingNode(userId : String?) {
+        Firebase.firestore.collection(FOLLOWING_NODE).document(userId!!).set(userFollowing)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d("userFollowingNode", "Created Successfully")
+                } else {
+                    Log.d("userFollowingNode", "failed")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("userFollowingNode", "failed : ${exception.localizedMessage}")
+            }
+    }
+
+    private fun createPostsNode(userId: String?) {
+        Firebase.firestore.collection(POSTS_NODE).document(userId!!).set(userPosts)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d("userPostNode", "Created Successfully")
+                } else {
+                    Log.d("userPostNode", "Failed")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("userPostNode", "failed : ${exception.localizedMessage}")
             }
     }
 }

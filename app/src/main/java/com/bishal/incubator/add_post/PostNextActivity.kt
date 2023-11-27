@@ -34,9 +34,7 @@ class PostNextActivity : AppCompatActivity() {
         // setup firebase
 
         // fetch the post image from previous screen using intent get extra
-        binding.postImage.load(intent.getStringExtra("selectedImage")) {
-            placeholder(R.drawable.splash)
-        }
+        getSelectedImage()
 
         // back button on click listener
         binding.backButton.setOnClickListener {
@@ -51,11 +49,26 @@ class PostNextActivity : AppCompatActivity() {
         }
     }
 
+    /*
+    * on start activity
+    * */
     override fun onStart() {
         super.onStart()
         fetchFirestore()
     }
 
+    /*
+    * gets the image from the incoming intent and displays the chosen image
+    * */
+    private fun getSelectedImage() {
+        binding.postImage.load(intent.getStringExtra("selectedImage")) {
+            placeholder(R.drawable.splash)
+        }
+    }
+
+    /*
+    * fetches the user image from the firestore and displays into the user image
+    * */
     private fun fetchFirestore() {
         Firebase.firestore.collection(USER_NODE).document(userId)
             .get().addOnSuccessListener {
