@@ -24,7 +24,7 @@ import com.bishal.incubator.utils.USER_DEFAULT_PASSWORD
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER
 import com.bishal.incubator.utils.generateDefaultUserName
-import com.bishal.incubator.utils.uploadImage
+import com.bishal.incubator.utils.uploadProfileImage
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -65,7 +65,7 @@ class SignUpActivity : AppCompatActivity() {
     * */
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let{
-            uploadImage(uri, USER_PROFILE_FOLDER) {
+            uploadProfileImage(uri, USER_PROFILE_FOLDER) {
                 if (it == null) {
                     Toast.makeText(this@SignUpActivity, "Failed to load image", Toast.LENGTH_SHORT).show()
                 } else {

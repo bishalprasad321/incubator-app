@@ -14,8 +14,11 @@ import com.bishal.incubator.databinding.FragmentUserProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
-import com.bishal.incubator.utils.POSTS_NODE
+import com.bishal.incubator.utils.FollowerCountCallback
+import com.bishal.incubator.utils.PostCountCallback
 import com.bishal.incubator.utils.USER_NODE
+import com.bishal.incubator.utils.getUserPostsCount
+import com.bishal.incubator.utils.getUsersFollowerCount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
@@ -120,8 +123,27 @@ class UserProfileFragment : Fragment() {
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
                 retrieveFollowingInfo(userId)
-                retrieveFollowersInfo(userId)
-                getUserPosts(userId)
+                // fetch and show user's follower count
+                getUsersFollowerCount(userId, object: FollowerCountCallback {
+                    override fun onFollowerCountReceived(followerCount: Int) {
+                        binding.followersCount.text = followerCount.toString()
+                        Log.d("Follower Count", followerCount.toString())
+                    }
+                    override fun onFollowerCountFailed(error: String) {
+                        Log.d("Follower Count", error)
+                    }
+                })
+
+                // fetch and display user's posts count
+                getUserPostsCount(userId, object: PostCountCallback {
+                    override fun onPostCountReceived(postCount: Int) {
+                        Log.d("Post Count", postCount.toString())
+                        binding.postsCount.text = postCount.toString()
+                    }
+                    override fun onPostCountFailed(error: String) {
+                        Log.d("Post Count", error)
+                    }
+                })
                 binding.profileNameTextView.text = user.name
                 binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
@@ -130,21 +152,6 @@ class UserProfileFragment : Fragment() {
                         placeholder(R.drawable.user_filled)
                     }
                 }
-            }
-    }
-
-    /*
-   * get total number of user's posts
-   * */
-    private fun getUserPosts(userId: String) {
-        Firebase.firestore.collection(POSTS_NODE)
-            .document(userId).get().addOnSuccessListener { postsDocument ->
-                val postsData = postsDocument.data!!
-                val postsCount = (postsData["posts"] as List<*>).size
-                binding.postsCount.text = postsCount.toString()
-            }
-            .addOnFailureListener {
-                Log.d("post count", it.localizedMessage!!)
             }
     }
 
@@ -169,19 +176,6 @@ class UserProfileFragment : Fragment() {
                 binding.followProfileButton.text = "Follow"
                 binding.followProfileButton.setBackgroundResource(R.drawable.profile_gradient_button_bg)
             }
-        }
-    }
-
-    private fun retrieveFollowersInfo(userId: String) {
-        // Get references to the Firestore collections
-        val followersRef = com.google.firebase.Firebase.firestore.collection(FOLLOWER_NODE)
-            .document(userId)
-
-        // Get the followers count of the user
-        followersRef.get().addOnSuccessListener { followersDocument ->
-            val followersData = followersDocument.data
-            val followersCount = (followersData?.get("followers") as List<*>).size
-            binding.followersCount.text = followersCount.toString()
         }
     }
 
