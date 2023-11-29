@@ -13,13 +13,8 @@ import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.settings.SettingsActivity
-import com.bishal.incubator.utils.FollowerCountCallback
-import com.bishal.incubator.utils.FollowingCountCallback
-import com.bishal.incubator.utils.PostCountCallback
+import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.USER_NODE
-import com.bishal.incubator.utils.getUserPostsCount
-import com.bishal.incubator.utils.getUsersFollowerCount
-import com.bishal.incubator.utils.getUsersFollowingCount
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -67,7 +62,8 @@ class ProfileFragment : Fragment() {
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
                 // fetch and show user's posts count
-                getUserPostsCount(currentUserId, object: PostCountCallback {
+                FirebaseMethods(requireContext()).getUserPostsCount(currentUserId, object:
+                    FirebaseMethods.PostCountCallback {
                     override fun onPostCountReceived(postCount: Int) {
                         Log.d("Post Count", postCount.toString())
                         binding.postsCount.text = postCount.toString()
@@ -78,7 +74,7 @@ class ProfileFragment : Fragment() {
                 })
 
                 // fetch and show user's follower count
-                getUsersFollowerCount(currentUserId, object: FollowerCountCallback {
+                FirebaseMethods(requireContext()).getUsersFollowerCount(currentUserId, object: FirebaseMethods.FollowerCountCallback {
                     override fun onFollowerCountReceived(followerCount: Int) {
                         binding.followersCount.text = followerCount.toString()
                         Log.d("Follower Count", followerCount.toString())
@@ -89,7 +85,8 @@ class ProfileFragment : Fragment() {
                 })
 
                 // fetch and show user's following count
-                getUsersFollowingCount(currentUserId, object : FollowingCountCallback {
+                FirebaseMethods(requireContext()).getUsersFollowingCount(currentUserId, object :
+                    FirebaseMethods.FollowingCountCallback {
                     override fun onFollowingCountReceived(followingCount: Int) {
                         binding.followingCount.text = followingCount.toString()
                         Log.d("Following Count", followingCount.toString())

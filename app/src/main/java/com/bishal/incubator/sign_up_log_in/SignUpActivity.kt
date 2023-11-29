@@ -18,13 +18,13 @@ import com.bishal.incubator.models.Posts
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
+import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.POSTS_NODE
 import com.bishal.incubator.utils.USER_DEFAULT_BIO
 import com.bishal.incubator.utils.USER_DEFAULT_PASSWORD
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER
 import com.bishal.incubator.utils.generateDefaultUserName
-import com.bishal.incubator.utils.uploadProfileImage
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -65,7 +65,7 @@ class SignUpActivity : AppCompatActivity() {
     * */
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let{
-            uploadProfileImage(uri, USER_PROFILE_FOLDER) {
+            FirebaseMethods(this@SignUpActivity).uploadProfileImage(uri, USER_PROFILE_FOLDER) {
                 if (it == null) {
                     Toast.makeText(this@SignUpActivity, "Failed to load image", Toast.LENGTH_SHORT).show()
                 } else {

@@ -10,9 +10,9 @@ import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivityEditProfileBinding
 import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.User
+import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER
-import com.bishal.incubator.utils.uploadProfileImage
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.SetOptions
@@ -36,7 +36,7 @@ class EditProfileActivity : AppCompatActivity() {
     private val galleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                uploadProfileImage(uri, USER_PROFILE_FOLDER) {
+                FirebaseMethods(this@EditProfileActivity).uploadProfileImage(uri, USER_PROFILE_FOLDER) {
                     if (it == null) {
                         Toast.makeText(
                             this@EditProfileActivity,

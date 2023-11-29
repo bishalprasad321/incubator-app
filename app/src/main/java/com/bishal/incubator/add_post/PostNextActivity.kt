@@ -1,6 +1,5 @@
 package com.bishal.incubator.add_post
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,17 +11,14 @@ import com.bishal.incubator.databinding.ActivityPostNextBinding
 import com.bishal.incubator.models.Photo
 import com.bishal.incubator.models.Posts
 import com.bishal.incubator.models.User
+import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.POSTS_NODE
-import com.bishal.incubator.utils.PostCountCallback
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PHOTO_FOLDER
-import com.bishal.incubator.utils.getUserPostsCount
-import com.bishal.incubator.utils.uploadPhoto
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.io.File
 import java.util.Calendar
 
 @Suppress("DEPRECATION")
@@ -45,7 +41,7 @@ class PostNextActivity : AppCompatActivity() {
         // initialize variables
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         selectedPost = intent.getStringExtra("selectedImage").toString()
-        getUserPostsCount(userId, object : PostCountCallback {
+        FirebaseMethods(this@PostNextActivity).getUserPostsCount(userId, object : FirebaseMethods.PostCountCallback {
             override fun onPostCountReceived(postCount: Int) {
                 postsCount = postCount
             }
@@ -110,10 +106,10 @@ class PostNextActivity : AppCompatActivity() {
     * Add selected post to firestore
     * */
     private fun addPostToFireStore(userId: String, caption : String?, postId: String, tags: String?) {
-        uploadPhoto(Uri.fromFile(File(selectedPost)), USER_PHOTO_FOLDER, userId) { downloadImageUrl ->
+        FirebaseMethods(this@PostNextActivity).uploadPhoto(selectedPost, USER_PHOTO_FOLDER, userId) { downloadImageUrl ->
             if (downloadImageUrl != null) {
                 val photo = Photo(
-                    imagePath = downloadImageUrl,
+                    imagePath = downloadImageUrl.toString(),
                     dateCreated = Calendar.getInstance().time.toString(),
                     caption = caption,
                     postId = postId,
