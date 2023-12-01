@@ -1,5 +1,6 @@
 package com.bishal.incubator.add_post
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,18 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivityPostNextBinding
+import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.Photo
 import com.bishal.incubator.models.Posts
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.POSTS_NODE
+import com.bishal.incubator.utils.StringMethods
+import com.bishal.incubator.utils.TimeDateMethods
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PHOTO_FOLDER
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.util.Calendar
 
 @Suppress("DEPRECATION")
 class PostNextActivity : AppCompatActivity() {
@@ -64,7 +67,7 @@ class PostNextActivity : AppCompatActivity() {
         binding.shareButton.setOnClickListener {
             binding.newPostProgressBar.visibility = View.VISIBLE
             // upload the image to the storage
-            addPostToFireStore(userId, binding.captionEditText.text.toString(), (postsCount + 1).toString(), null)
+            addPostToFireStore(userId, binding.captionEditText.text.toString(), (postsCount + 1).toString())
 
             // move to the home screen
         }
@@ -105,15 +108,15 @@ class PostNextActivity : AppCompatActivity() {
     /*
     * Add selected post to firestore
     * */
-    private fun addPostToFireStore(userId: String, caption : String?, postId: String, tags: String?) {
+    private fun addPostToFireStore(userId: String, caption : String?, postId: String) {
         FirebaseMethods(this@PostNextActivity).uploadPhoto(selectedPost, USER_PHOTO_FOLDER, userId) { downloadImageUrl ->
             if (downloadImageUrl != null) {
                 val photo = Photo(
                     imagePath = downloadImageUrl.toString(),
-                    dateCreated = Calendar.getInstance().time.toString(),
+                    dateCreated = TimeDateMethods().getTimestamp(),
                     caption = caption,
                     postId = postId,
-                    tags = tags
+                    tags = StringMethods().getTags(caption!!)
                 )
 
                 Firebase.firestore.collection(POSTS_NODE).document(userId)
@@ -134,6 +137,8 @@ class PostNextActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                     binding.newPostProgressBar.visibility = View.GONE
+                                    startActivity(Intent(this@PostNextActivity, HomeActivity::class.java))
+                                    finish()
                                 }
                                 .addOnFailureListener { exception ->
                                     Toast.makeText(

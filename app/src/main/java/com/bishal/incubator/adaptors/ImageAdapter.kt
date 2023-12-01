@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.bishal.incubator.R
@@ -40,7 +39,6 @@ class ImageAdapter(private val images: ArrayList<String>) : RecyclerView.Adapter
 
         // set layout params
         holder.imageCard.layoutParams = ConstraintLayout.LayoutParams(screenWidth / 4, screenWidth / 4)
-        holder.imageCard.marginTop
 
         val imageItem = images[position]
         holder.imageView.load(imageItem) {

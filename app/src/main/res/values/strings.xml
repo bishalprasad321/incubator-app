@@ -44,12 +44,12 @@
     <string name="user_s_profile">User\'s Profile</string>
     <string name="side_drawer">side drawer</string>
     <string name="profile_name_hint">Darius Tranz</string>
-    <string name="posts_count">30</string>
+    <string name="posts_count">0</string>
     <string name="posts">posts</string>
-    <string name="followers_count">100</string>
+    <string name="followers_count">0</string>
     <string name="followers">followers</string>
     <string name="following">following</string>
-    <string name="following_count">16</string>
+    <string name="following_count">0</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="share_profile">Share Profile</string>
     <string name="profile_user_bio">Google employee | Rising star</string>
@@ -88,4 +88,5 @@
     <string name="post_selected_for_post">Image for post</string>
     <string name="caption_screen">caption screen</string>
     <string name="write_caption">Write something about your post…</string>
+    <string name="users_posts">users posts</string>
 </resources>

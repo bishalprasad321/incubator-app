@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -24,6 +25,7 @@ import com.bishal.incubator.databinding.FragmentPostNewPictureBinding
 import com.bishal.incubator.utils.CAMERA_REQUEST_CODE
 import com.bishal.incubator.utils.FilePaths
 import com.bishal.incubator.utils.FileSearch
+import com.bishal.incubator.utils.ImageManager
 
 @Suppress("DEPRECATION")
 class PostNewPictureFragment : Fragment(), ImageAdapter.OnImageItemClickListener {
@@ -116,7 +118,11 @@ class PostNewPictureFragment : Fragment(), ImageAdapter.OnImageItemClickListener
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val image = data?.extras?.get("data") as Bitmap
-            binding.postImageView.setImageBitmap(image)
+            val imageFile = ImageManager(requireContext()).saveImageToFile(image)
+            if (imageFile != null) {
+                selectedImage = imageFile.toString()
+                binding.postImageView.setImageURI(Uri.fromFile(imageFile))
+            }
         }
     }
 

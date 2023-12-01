@@ -31,8 +31,8 @@ class FirebaseMethods(val context: Context) {
         var imageUrl: String
 
         // convert the image url to bitmap
-        val bitmap = ImageManager().getBitmap(imagePath = imagePath)
-        val byteData = ImageManager().getBytesFromBitmap(bitmap, 75)
+        val bitmap = ImageManager(context).getBitmap(imagePath = imagePath)
+        val byteData = ImageManager(context).getBytesFromBitmap(bitmap, 75)
 
         FirebaseStorage.getInstance().getReference(folderName).child("$userId/${System.currentTimeMillis()}.jpg")
             .putBytes(byteData)
