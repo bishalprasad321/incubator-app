@@ -97,8 +97,9 @@ class SettingsActivity : AppCompatActivity() {
         googleSignInClient.signOut()
             .addOnCompleteListener(this@SettingsActivity) {
                 if (it.isSuccessful) {
-                    startActivity(Intent(this@SettingsActivity, SignInActivity::class.java))
-                    finish()
+                    Firebase.auth.signOut()
+                    startActivity(Intent(this@SettingsActivity, SignInActivity::class.java)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
                 } else {
                     Toast.makeText(
                         this@SettingsActivity,
@@ -107,7 +108,5 @@ class SettingsActivity : AppCompatActivity() {
                     ).show()
                 }
             }
-        Firebase.auth.signOut()
-        finish()
     }
 }

@@ -9,3 +9,4 @@ const val USER_PHOTO_FOLDER = "Photos"
 const val USER_DEFAULT_BIO = "Hey there! I am using incubator"
 const val USER_DEFAULT_PASSWORD = "123456"
 const val CAMERA_REQUEST_CODE = 1002
+const val COLUMN_COUNT = 3

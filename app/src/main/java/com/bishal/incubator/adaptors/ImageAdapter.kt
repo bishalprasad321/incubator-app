@@ -3,12 +3,12 @@ package com.bishal.incubator.adaptors
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.ImageView
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.bishal.incubator.R
+import com.bishal.incubator.utils.calculateSizeOfView
 
 class ImageAdapter(private val images: ArrayList<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
@@ -16,7 +16,6 @@ class ImageAdapter(private val images: ArrayList<String>) : RecyclerView.Adapter
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.itemImageView)
-        val imageCard: CardView = itemView.findViewById(R.id.itemImageCard)
     }
 
     // Interface for sending the selected image path to the parent activity
@@ -29,17 +28,17 @@ class ImageAdapter(private val images: ArrayList<String>) : RecyclerView.Adapter
         viewType: Int
     ): ImageViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_item_layout, parent, false)
+        val size = calculateSizeOfView(parent.context)
+        val margin = 8 * 3 // any vertical spacing margin = your_margin * column_count
+        val layoutParams = GridLayout.LayoutParams(ViewGroup.LayoutParams(size - margin, size)) // width and height
+
+        layoutParams.bottomMargin = 8 // horizontal spacing if needed
+
+        view.layoutParams = layoutParams
         return ImageViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        // device parameters
-        val deviceMetrics = holder.itemView.context.resources.displayMetrics
-        val screenWidth = deviceMetrics.widthPixels
-
-        // set layout params
-        holder.imageCard.layoutParams = ConstraintLayout.LayoutParams(screenWidth / 4, screenWidth / 4)
-
         val imageItem = images[position]
         holder.imageView.load(imageItem) {
             placeholder(R.drawable.splash)

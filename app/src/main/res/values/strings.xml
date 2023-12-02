@@ -43,7 +43,7 @@
     <string name="fb_login_protocol_scheme">fb652856466990342</string>
     <string name="user_s_profile">User\'s Profile</string>
     <string name="side_drawer">side drawer</string>
-    <string name="profile_name_hint">Darius Tranz</string>
+    <string name="profile_name_hint">User Name</string>
     <string name="posts_count">0</string>
     <string name="posts">posts</string>
     <string name="followers_count">0</string>
@@ -52,8 +52,8 @@
     <string name="following_count">0</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="share_profile">Share Profile</string>
-    <string name="profile_user_bio">Google employee | Rising star</string>
-    <string name="profile_user_name">\@darius_tranz</string>
+    <string name="profile_user_bio">User short bio description</string>
+    <string name="profile_user_name">\@user_name</string>
     <string name="profile_tab_for_posts_incubates">profile tab for posts/incubates</string>
     <string name="chat_icon">chat icon</string>
     <string name="notification_icon">notification icon</string>

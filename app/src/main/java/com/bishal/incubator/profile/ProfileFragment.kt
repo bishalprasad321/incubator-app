@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
+import com.bishal.incubator.add_post.AddPostActivity
 import com.bishal.incubator.databinding.FragmentProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.settings.SettingsActivity
@@ -36,15 +37,17 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Setup tabs
-        setUpTabs()
-
         // User id
         currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
 
         // Edit profile button
         binding.editProfileButton.setOnClickListener{
             startActivity(Intent(requireActivity(), EditProfileActivity::class.java).putExtra("userId", currentUserId))
+        }
+
+        // add post button
+        binding.addPostButton.setOnClickListener{
+            startActivity(Intent(requireActivity(), AddPostActivity::class.java))
         }
 
         // Settings Button
@@ -105,6 +108,9 @@ class ProfileFragment : Fragment() {
                         .placeholder(R.drawable.user_filled).into(binding.profileImageView)
                 }
             }
+
+        // Setup tabs
+        setUpTabs()
     }
 
     /*
