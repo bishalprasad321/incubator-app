@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.add_post.AddPostActivity
@@ -16,7 +17,6 @@ import com.bishal.incubator.models.User
 import com.bishal.incubator.settings.SettingsActivity
 import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.USER_NODE
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -38,11 +38,19 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // User id
-        currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+        currentUserId = if (savedInstanceState != null) {
+            savedInstanceState.getString("userId")!!
+        } else {
+            FirebaseAuth.getInstance().currentUser!!.uid
+        }
 
         // Edit profile button
         binding.editProfileButton.setOnClickListener{
-            startActivity(Intent(requireActivity(), EditProfileActivity::class.java).putExtra("userId", currentUserId))
+             startActivity(
+                 Intent(requireActivity(), EditProfileActivity::class.java)
+                     .putExtra("userId", currentUserId)
+                     .addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
+             )
         }
 
         // add post button
@@ -58,9 +66,19 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
+        // initialize the data and fetch the UI
+        init()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        init()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun init() {
         Firebase.firestore.collection(USER_NODE).document(currentUserId)
             .get().addOnSuccessListener {
                 val user: User = it.toObject<User>()!!
@@ -104,8 +122,9 @@ class ProfileFragment : Fragment() {
                 binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
                 if (!user.image.isNullOrEmpty()) {
-                    Glide.with(this@ProfileFragment).load(user.image)
-                        .placeholder(R.drawable.user_filled).into(binding.profileImageView)
+                    binding.profileImageView.load(user.image) {
+                        placeholder(R.drawable.user_filled)
+                    }
                 }
             }
 
@@ -127,5 +146,14 @@ class ProfileFragment : Fragment() {
         binding.profileTabLayout.getTabAt(0)!!.setIcon(R.drawable.grid_view)
         binding.profileTabLayout.getTabAt(1)!!.setIcon(R.drawable.video_play_outlined)
         binding.profileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
+    }
+
+    /*
+    * Save the current instance for restoring the app's current state
+    * */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // save the current user id
+        outState.putString("userId", FirebaseAuth.getInstance().currentUser!!.uid)
     }
 }

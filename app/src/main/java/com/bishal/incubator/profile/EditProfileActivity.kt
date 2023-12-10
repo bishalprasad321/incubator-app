@@ -1,19 +1,18 @@
 package com.bishal.incubator.profile
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.databinding.ActivityEditProfileBinding
-import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FirebaseMethods
 import com.bishal.incubator.utils.USER_NODE
 import com.bishal.incubator.utils.USER_PROFILE_FOLDER
-import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
@@ -69,8 +68,9 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.userNameEtView.setText(user.username)
                 binding.nameEtView.setText(user.name)
                 binding.bioTextView.setText(user.bio)
-                Glide.with(this@EditProfileActivity).load(user.image)
-                    .placeholder(R.drawable.user_filled).into(binding.profileImageView)
+                binding.profileImageView.load(user.image) {
+                    placeholder(R.drawable.user_filled)
+                }
                 profileImage = user.image!!
                 binding.loadingDataProgressBar.visibility = View.GONE
 
@@ -121,7 +121,8 @@ class EditProfileActivity : AppCompatActivity() {
                     "Profile updated successfully!!",
                     Toast.LENGTH_SHORT
                 ).show()
-                startActivity(Intent(this@EditProfileActivity, HomeActivity::class.java))
+                // startActivity(Intent(this@EditProfileActivity, HomeActivity::class.java))
+                setResult(Activity.RESULT_OK)
                 finish()
             }.addOnFailureListener {
                 Toast.makeText(this@EditProfileActivity, it.localizedMessage, Toast.LENGTH_LONG)

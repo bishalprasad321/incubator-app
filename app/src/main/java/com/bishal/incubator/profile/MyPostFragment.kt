@@ -34,9 +34,12 @@ class MyPostFragment : Fragment() {
         myPosts = listOf()
         userId = FirebaseAuth.getInstance().currentUser!!.uid
 
-        setupRecyclerView()
-
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
@@ -49,7 +52,7 @@ class MyPostFragment : Fragment() {
             .get().addOnSuccessListener { postsDocument ->
                 val postsData = postsDocument.toObject(Posts::class.java)
                 if (postsData != null) {
-                    myPosts = postsData.posts.orEmpty()
+                    myPosts = postsData.posts.orEmpty().reversed()
                     for (post in myPosts) run {
                         Log.d("Posts", post.imagePath!!)
                     }

@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.models.Photo
 import com.bishal.incubator.utils.calculateSizeOfView
-import com.bumptech.glide.Glide
 
 class MyPostsImageAdapter(private val photos : List<Photo>) : RecyclerView.Adapter<MyPostsImageAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,9 +35,8 @@ class MyPostsImageAdapter(private val photos : List<Photo>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photo = photos[position]
-        Glide.with(holder.itemView.context)
-            .load(photo.imagePath)
-            .placeholder(R.drawable.splash) // Placeholder image while loading
-            .into(holder.imageView)
+        holder.imageView.load(photo.imagePath){
+            placeholder(R.drawable.splash)
+        }
     }
 }
