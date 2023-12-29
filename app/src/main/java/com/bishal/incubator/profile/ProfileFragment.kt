@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 class ProfileFragment : Fragment() {
@@ -38,11 +40,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // User id
-        currentUserId = if (savedInstanceState != null) {
-            savedInstanceState.getString("userId")!!
-        } else {
-            FirebaseAuth.getInstance().currentUser!!.uid
-        }
+        currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
 
         // Edit profile button
         binding.editProfileButton.setOnClickListener{
@@ -70,6 +68,8 @@ class ProfileFragment : Fragment() {
         super.onStart()
         // initialize the data and fetch the UI
         init()
+        // Setup tabs
+        setUpTabs()
     }
 
     override fun onResume() {
@@ -95,7 +95,8 @@ class ProfileFragment : Fragment() {
                 })
 
                 // fetch and show user's follower count
-                FirebaseMethods(requireContext()).getUsersFollowerCount(currentUserId, object: FirebaseMethods.FollowerCountCallback {
+                FirebaseMethods(requireContext()).getUsersFollowerCount(
+                    currentUserId, object: FirebaseMethods.FollowerCountCallback {
                     override fun onFollowerCountReceived(followerCount: Int) {
                         binding.followersCount.text = followerCount.toString()
                         Log.d("Follower Count", followerCount.toString())
@@ -121,22 +122,22 @@ class ProfileFragment : Fragment() {
                 binding.profileNameTextView.text = user.name
                 binding.userNameAppBar.text = "@${user.username}"
                 binding.profileUserBio.text = user.bio
-                if (!user.image.isNullOrEmpty()) {
-                    binding.profileImageView.load(user.image) {
-                        placeholder(R.drawable.user_filled)
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    if (!user.image.isNullOrEmpty()) {
+                        binding.profileImageView.load(user.image) {
+                            placeholder(R.drawable.user_filled)
+                        }
                     }
                 }
             }
-
-        // Setup tabs
-        setUpTabs()
     }
 
     /*
     * set up tab layout : My posts | My Incubates | My Bookmarks
     * */
     private fun setUpTabs() {
-        viewPagerAdaptor = ViewPagerAdaptor(requireActivity().supportFragmentManager)
+        viewPagerAdaptor = ViewPagerAdaptor(childFragmentManager)
         viewPagerAdaptor.addFragments(MyPostFragment())
         viewPagerAdaptor.addFragments(MyIncubatesFragment())
         viewPagerAdaptor.addFragments(MyBookmarksFragment())
@@ -146,14 +147,5 @@ class ProfileFragment : Fragment() {
         binding.profileTabLayout.getTabAt(0)!!.setIcon(R.drawable.grid_view)
         binding.profileTabLayout.getTabAt(1)!!.setIcon(R.drawable.video_play_outlined)
         binding.profileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
-    }
-
-    /*
-    * Save the current instance for restoring the app's current state
-    * */
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // save the current user id
-        outState.putString("userId", FirebaseAuth.getInstance().currentUser!!.uid)
     }
 }

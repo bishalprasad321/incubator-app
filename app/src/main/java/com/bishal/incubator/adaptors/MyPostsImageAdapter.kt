@@ -14,7 +14,6 @@ import com.bishal.incubator.utils.calculateSizeOfView
 class MyPostsImageAdapter(private val photos : List<Photo>) : RecyclerView.Adapter<MyPostsImageAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.itemImageView)
-        // val imageCard: CardView = itemView.findViewById(R.id.itemImageCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,8 +34,11 @@ class MyPostsImageAdapter(private val photos : List<Photo>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photo = photos[position]
-        holder.imageView.load(photo.imagePath){
-            placeholder(R.drawable.splash)
+        if (!photo.imagePath.isNullOrEmpty()) {
+            holder.imageView.load(photo.imagePath) {
+                placeholder(R.drawable.splash)
+                error(R.drawable.splash)
+            }
         }
     }
 }
