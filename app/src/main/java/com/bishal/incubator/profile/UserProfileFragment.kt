@@ -102,16 +102,16 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun setUpTabs() {
-        viewPagerAdaptor = ViewPagerAdaptor(requireActivity().supportFragmentManager)
-        viewPagerAdaptor.addFragments(MyPostFragment())
+        viewPagerAdaptor = ViewPagerAdaptor(childFragmentManager)
+        viewPagerAdaptor.addFragments(MyPostFragment.newInstance(userId))
         viewPagerAdaptor.addFragments(MyIncubatesFragment())
         viewPagerAdaptor.addFragments(MyBookmarksFragment())
-        binding.profileViewPager.adapter = viewPagerAdaptor
-        binding.profileTabLayout.setupWithViewPager(binding.profileViewPager)
+        binding.userProfileViewPager.adapter = viewPagerAdaptor
+        binding.userProfileTabLayout.setupWithViewPager(binding.userProfileViewPager)
 
-        binding.profileTabLayout.getTabAt(0)!!.setIcon(R.drawable.grid_view)
-        binding.profileTabLayout.getTabAt(1)!!.setIcon(R.drawable.video_play_outlined)
-        binding.profileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
+        binding.userProfileTabLayout.getTabAt(0)!!.setIcon(R.drawable.grid_view)
+        binding.userProfileTabLayout.getTabAt(1)!!.setIcon(R.drawable.video_play_outlined)
+        binding.userProfileTabLayout.getTabAt(2)!!.setIcon(R.drawable.bookmark)
     }
 
     @SuppressLint("SetTextI18n")

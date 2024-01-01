@@ -11,7 +11,6 @@ import com.bishal.incubator.adaptors.MyPostsImageAdapter
 import com.bishal.incubator.databinding.FragmentMyPostBinding
 import com.bishal.incubator.models.Photo
 import com.bishal.incubator.viewmodels.MyPostsViewModel
-import com.google.firebase.auth.FirebaseAuth
 
 class MyPostFragment : Fragment() {
 
@@ -24,13 +23,25 @@ class MyPostFragment : Fragment() {
     private lateinit var myPosts : List<Photo>
     private lateinit var userId: String
 
+    companion object {
+        private const val USER_ID_KEY = "userId"
+
+        fun newInstance(userId: String): MyPostFragment {
+            val fragment = MyPostFragment()
+            val args = Bundle()
+            args.putString(USER_ID_KEY, userId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // initialization of variables
         myPosts = listOf()
-        userId = FirebaseAuth.getInstance().currentUser!!.uid
+        userId = arguments?.getString(USER_ID_KEY)!!
 
         binding.myPostsRecyclerView.layoutManager =
             GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)

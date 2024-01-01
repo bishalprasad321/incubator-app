@@ -138,7 +138,7 @@ class ProfileFragment : Fragment() {
     * */
     private fun setUpTabs() {
         viewPagerAdaptor = ViewPagerAdaptor(childFragmentManager)
-        viewPagerAdaptor.addFragments(MyPostFragment())
+        viewPagerAdaptor.addFragments(MyPostFragment.newInstance(currentUserId))
         viewPagerAdaptor.addFragments(MyIncubatesFragment())
         viewPagerAdaptor.addFragments(MyBookmarksFragment())
         binding.profileViewPager.adapter = viewPagerAdaptor
