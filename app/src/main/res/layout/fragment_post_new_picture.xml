@@ -51,7 +51,7 @@
                 android:text="@string/new_post"
                 android:textColor="@color/white"
                 android:layout_gravity="center_vertical"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 

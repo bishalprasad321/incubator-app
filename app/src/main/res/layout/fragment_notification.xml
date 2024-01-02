@@ -40,7 +40,7 @@
                     android:fontFamily="@font/poppins_extrabold"
                     android:text="@string/notification"
                     android:textColor="@color/white"
-                    android:textSize="24sp"/>
+                    android:textSize="20sp"/>
 
             </com.google.android.material.appbar.MaterialToolbar>
 

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_background">
+
+    <LinearLayout
+        android:id="@+id/postsUserDetail"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextSizeCheck">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:layout_weight="0.2"
+            android:src="@drawable/user_filled"
+            app:civ_border_color="@color/pink"
+            app:civ_border_width="2dp"
+            app:civ_circle_background_color="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/username"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/poppins_light"
+                android:text="@string/location"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:src="@drawable/more"
+            app:tint="@color/white"
+            android:contentDescription="@string/more_options"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/postViewImage"
+        android:layout_width="match_parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+        android:layout_height="0dp"
+        android:src="@drawable/splash"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/users_posts"
+        android:layout_margin="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postsUserDetail"
+        app:layout_constraintBottom_toTopOf="@id/actionPane"
+        app:layout_constraintDimensionRatio="H,4:5"/>
+
+    <LinearLayout
+        android:id="@+id/actionPane"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postViewImage">
+
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:src="@drawable/heart"
+            android:contentDescription="@string/like"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/commentButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:src="@drawable/message_circle"
+            app:tint="@color/white"
+            android:contentDescription="@string/comment"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/sendButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:src="@drawable/send"
+            app:tint="@color/white"
+            android:contentDescription="@string/share"
+            android:background="@android:color/transparent"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"/>
+
+        <ImageButton
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:src="@drawable/bookmark"
+            app:tint="@color/white"
+            android:contentDescription="@string/save"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/likesTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/likes_string"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actionPane"/>
+
+    <TextView
+        android:id="@+id/captionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/caption_string"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:maxLines="2"
+        android:ellipsize="marquee"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/likesTextView"/>
+
+    <TextView
+        android:id="@+id/viewCommentsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_comments_string"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/captionTextView"/>
+
+    <TextView
+        android:id="@+id/datePostedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/post_date_string"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/light_grey"
+        android:textSize="14sp"
+        android:maxLines="1"
+        android:textAllCaps="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewCommentsTextView"/>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/datePostedTextView"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

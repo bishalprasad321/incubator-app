@@ -89,4 +89,15 @@
     <string name="caption_screen">caption screen</string>
     <string name="write_caption">Write something about your post…</string>
     <string name="users_posts">users posts</string>
+    <string name="posts_title">Posts</string>
+    <string name="username">username</string>
+    <string name="location">location</string>
+    <string name="more_options">more options</string>
+    <string name="like">like</string>
+    <string name="comment">comment</string>
+    <string name="save">save_post</string>
+    <string name="likes_string">Liked by <b>bishal_prasad</b>, <b>nick</b>, <b>darius</b> and <b>30 others</b>.</string>
+    <string name="caption_string">New posts #lookingcool</string>
+    <string name="post_date_string">3 days ago</string>
+    <string name="view_comments_string">View all <b>4 comments</b></string>
 </resources>
