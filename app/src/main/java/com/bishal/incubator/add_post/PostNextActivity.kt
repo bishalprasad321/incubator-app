@@ -13,7 +13,8 @@ import com.bishal.incubator.home.HomeActivity
 import com.bishal.incubator.models.Photo
 import com.bishal.incubator.models.Posts
 import com.bishal.incubator.models.User
-import com.bishal.incubator.utils.FirebaseMethods
+import com.bishal.incubator.utils.FirebaseFetchMethods
+import com.bishal.incubator.utils.UploadPhoto
 import com.bishal.incubator.utils.POSTS_NODE
 import com.bishal.incubator.utils.StringMethods
 import com.bishal.incubator.utils.TimeDateMethods
@@ -44,7 +45,7 @@ class PostNextActivity : AppCompatActivity() {
         // initialize variables
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         selectedPost = intent.getStringExtra("selectedImage").toString()
-        FirebaseMethods(this@PostNextActivity).getUserPostsCount(userId, object : FirebaseMethods.PostCountCallback {
+        FirebaseFetchMethods().getUserPostsCount(userId, object : FirebaseFetchMethods.PostCountCallback {
             override fun onPostCountReceived(postCount: Int) {
                 postsCount = postCount
             }
@@ -109,7 +110,7 @@ class PostNextActivity : AppCompatActivity() {
     * Add selected post to firestore
     * */
     private fun addPostToFireStore(userId: String, caption : String?, postId: String) {
-        FirebaseMethods(this@PostNextActivity).uploadPhoto(selectedPost, USER_PHOTO_FOLDER, userId) { downloadImageUrl ->
+        UploadPhoto(this@PostNextActivity).uploadPhoto(selectedPost, USER_PHOTO_FOLDER, userId) { downloadImageUrl ->
             if (downloadImageUrl != null) {
                 val photo = Photo(
                     imagePath = downloadImageUrl.toString(),

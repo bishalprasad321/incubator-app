@@ -3,29 +3,21 @@ package com.bishal.incubator.profile
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.ViewPagerAdaptor
 import com.bishal.incubator.add_post.AddPostActivity
 import com.bishal.incubator.databinding.FragmentProfileBinding
-import com.bishal.incubator.models.User
 import com.bishal.incubator.settings.SettingsActivity
-import com.bishal.incubator.utils.FirebaseMethods
-import com.bishal.incubator.utils.USER_NODE
+import com.bishal.incubator.viewmodels.ProfileDetailsViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
 
-@Suppress("DEPRECATION")
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(){
 
     private lateinit var viewPagerAdaptor: ViewPagerAdaptor
 
@@ -34,6 +26,8 @@ class ProfileFragment : Fragment() {
     }
 
     private lateinit var currentUserId: String
+
+    private val profileDetailsViewModel : ProfileDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,58 +73,48 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun init() {
-        Firebase.firestore.collection(USER_NODE).document(currentUserId)
-            .get().addOnSuccessListener {
-                val user: User = it.toObject<User>()!!
-                // fetch and show user's posts count
-                FirebaseMethods(requireContext()).getUserPostsCount(currentUserId, object:
-                    FirebaseMethods.PostCountCallback {
-                    override fun onPostCountReceived(postCount: Int) {
-                        Log.d("Post Count", postCount.toString())
-                        binding.postsCount.text = postCount.toString()
-                    }
-                    override fun onPostCountFailed(error: String) {
-                        Log.d("Post Count", error)
-                    }
-                })
+        // Fetch all profile fragment's related details
+        profileDetailsViewModel.getUserProfileDetails(currentUserId)
 
-                // fetch and show user's follower count
-                FirebaseMethods(requireContext()).getUsersFollowerCount(
-                    currentUserId, object: FirebaseMethods.FollowerCountCallback {
-                    override fun onFollowerCountReceived(followerCount: Int) {
-                        binding.followersCount.text = followerCount.toString()
-                        Log.d("Follower Count", followerCount.toString())
-                    }
-                    override fun onFollowerCountFailed(error: String) {
-                        Log.d("Follower Count", error)
-                    }
-                })
+        // follower count
+        profileDetailsViewModel.followerCount.observe(viewLifecycleOwner) { followerCount ->
+            binding.followersCount.text = followerCount
+        }
 
-                // fetch and show user's following count
-                FirebaseMethods(requireContext()).getUsersFollowingCount(currentUserId, object :
-                    FirebaseMethods.FollowingCountCallback {
-                    override fun onFollowingCountReceived(followingCount: Int) {
-                        binding.followingCount.text = followingCount.toString()
-                        Log.d("Following Count", followingCount.toString())
-                    }
-                    override fun onFollowingCountFailed(error: String) {
-                        Log.d("Following Count", error)
-                    }
-                })
+        // following count
+        profileDetailsViewModel.followingCount.observe(viewLifecycleOwner) { followingCount ->
+            binding.followingCount.text = followingCount
+        }
 
-                // fetch and show user's basic details
-                binding.profileNameTextView.text = user.name
-                binding.userNameAppBar.text = "@${user.username}"
-                binding.profileUserBio.text = user.bio
+        // posts count
+        profileDetailsViewModel.postCount.observe(viewLifecycleOwner) { postCount ->
+            binding.postsCount.text = postCount
+        }
 
-                viewLifecycleOwner.lifecycleScope.launch {
-                    if (!user.image.isNullOrEmpty()) {
-                        binding.profileImageView.load(user.image) {
-                            placeholder(R.drawable.user_filled)
-                        }
-                    }
+        // load profile image
+        profileDetailsViewModel.userProfileImagePath.observe(viewLifecycleOwner) { profileImagePath ->
+            if (!profileImagePath.isNullOrEmpty()) {
+                binding.profileImageView.load(profileImagePath) {
+                    placeholder(R.drawable.user_filled)
+                    error(R.drawable.splash)
                 }
             }
+        }
+
+        // observe on user's name
+        profileDetailsViewModel.userName.observe(viewLifecycleOwner) { name ->
+            binding.profileNameTextView.text = name
+        }
+
+        // observe on user's username
+        profileDetailsViewModel.userUserName.observe(viewLifecycleOwner) { username ->
+            binding.userNameAppBar.text = "@${username}"
+        }
+
+        // observe on user's bio
+        profileDetailsViewModel.userBio.observe(viewLifecycleOwner) { bio ->
+            binding.profileUserBio.text = bio
+        }
     }
 
     /*

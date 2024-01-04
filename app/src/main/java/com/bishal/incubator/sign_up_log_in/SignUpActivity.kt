@@ -18,7 +18,7 @@ import com.bishal.incubator.models.Posts
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
-import com.bishal.incubator.utils.FirebaseMethods
+import com.bishal.incubator.utils.UploadPhoto
 import com.bishal.incubator.utils.POSTS_NODE
 import com.bishal.incubator.utils.USER_DEFAULT_BIO
 import com.bishal.incubator.utils.USER_DEFAULT_PASSWORD
@@ -65,7 +65,7 @@ class SignUpActivity : AppCompatActivity() {
     * */
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let{
-            FirebaseMethods(this@SignUpActivity).uploadProfileImage(uri, USER_PROFILE_FOLDER) {
+            UploadPhoto(this@SignUpActivity).uploadProfileImage(uri, USER_PROFILE_FOLDER) {
                 if (it == null) {
                     Toast.makeText(this@SignUpActivity, "Failed to load image", Toast.LENGTH_SHORT).show()
                 } else {

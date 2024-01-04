@@ -9,11 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.bishal.incubator.R
 import com.bishal.incubator.models.Photo
+import com.bishal.incubator.utils.PROFILE_FRAGMENT_NUMBER
 import com.bishal.incubator.utils.calculateSizeOfView
 
 class MyPostsImageAdapter(private val photos : List<Photo>) : RecyclerView.Adapter<MyPostsImageAdapter.ViewHolder>() {
+
+    private var onPostItemClickListener : OnPostItemClickListener? = null
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.itemImageView)
+    }
+
+    interface OnPostItemClickListener {
+        fun onItemClick(photo : Photo, fragmentNumber : Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,5 +48,13 @@ class MyPostsImageAdapter(private val photos : List<Photo>) : RecyclerView.Adapt
                 error(R.drawable.splash)
             }
         }
+
+        holder.imageView.setOnClickListener {
+            onPostItemClickListener?.onItemClick(photo, PROFILE_FRAGMENT_NUMBER)
+        }
+    }
+
+    fun setOnPostItemClickListener(listener: OnPostItemClickListener) {
+        this.onPostItemClickListener = listener
     }
 }

@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bishal.incubator.R
 import com.bishal.incubator.adaptors.MyPostsImageAdapter
 import com.bishal.incubator.databinding.FragmentMyPostBinding
 import com.bishal.incubator.models.Photo
+import com.bishal.incubator.posts_content.Posts
 import com.bishal.incubator.viewmodels.MyPostsViewModel
 
-class MyPostFragment : Fragment() {
+class MyPostFragment : Fragment(), MyPostsImageAdapter.OnPostItemClickListener {
 
     private val binding : FragmentMyPostBinding by lazy {
         FragmentMyPostBinding.inflate(layoutInflater)
@@ -35,6 +37,13 @@ class MyPostFragment : Fragment() {
         }
     }
 
+    override fun onItemClick(photo : Photo, fragmentNumber : Int) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.navHostFragment, Posts.newInstance(userId))
+        transaction?.addToBackStack(null)
+        transaction?.commit()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +64,7 @@ class MyPostFragment : Fragment() {
         viewModel.myPosts.observe(viewLifecycleOwner) { myPosts ->
             // Update UI with the new data
             val adapter = MyPostsImageAdapter(myPosts)
+            adapter.setOnPostItemClickListener(this@MyPostFragment)
             binding.myPostsRecyclerView.adapter = adapter
         }
 

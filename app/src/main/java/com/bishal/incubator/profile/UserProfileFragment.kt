@@ -14,7 +14,7 @@ import com.bishal.incubator.databinding.FragmentUserProfileBinding
 import com.bishal.incubator.models.User
 import com.bishal.incubator.utils.FOLLOWER_NODE
 import com.bishal.incubator.utils.FOLLOWING_NODE
-import com.bishal.incubator.utils.FirebaseMethods
+import com.bishal.incubator.utils.FirebaseFetchMethods
 import com.bishal.incubator.utils.USER_NODE
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -121,8 +121,8 @@ class UserProfileFragment : Fragment() {
                 val user: User = it.toObject<User>()!!
                 retrieveFollowingInfo(userId)
                 // fetch and show user's follower count
-                FirebaseMethods(requireContext()).getUsersFollowerCount(userId, object:
-                    FirebaseMethods.FollowerCountCallback {
+                FirebaseFetchMethods().getUsersFollowerCount(userId, object:
+                    FirebaseFetchMethods.FollowerCountCallback {
                     override fun onFollowerCountReceived(followerCount: Int) {
                         binding.followersCount.text = followerCount.toString()
                         Log.d("Follower Count", followerCount.toString())
@@ -133,7 +133,7 @@ class UserProfileFragment : Fragment() {
                 })
 
                 // fetch and display user's posts count
-                FirebaseMethods(requireContext()).getUserPostsCount(userId, object: FirebaseMethods.PostCountCallback {
+                FirebaseFetchMethods().getUserPostsCount(userId, object: FirebaseFetchMethods.PostCountCallback {
                     override fun onPostCountReceived(postCount: Int) {
                         Log.d("Post Count", postCount.toString())
                         binding.postsCount.text = postCount.toString()
